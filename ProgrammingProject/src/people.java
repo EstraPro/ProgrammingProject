@@ -14,20 +14,7 @@ public class people {
 	
 	
 	
-	public people(String id, String name, String lastName, String birthDate, String gender, String birthPlace,
-			String home, String studiedAt, String workPlaces, String films, String groupCode) {
-		super();
-		this.id = id;
-		this.name = name;
-		this.lastName = lastName;
-		this.birthDate = birthDate;
-		this.gender = gender;
-		this.birthPlace = birthPlace;
-		this.home = home;
-		this.studiedAt = studiedAt;
-		this.workPlaces = workPlaces;
-		this.films = films;
-		this.groupCode = groupCode;
+	public people() {
 	}
 	
 	
@@ -96,6 +83,25 @@ public class people {
 	}
 	public void setGroupCode(String groupCode) {
 		this.groupCode = groupCode;
+	}
+	
+	public String toString() {
+		
+		String s = "";
+		
+		s += id + ",";
+		s += name + ",";
+		s += lastName + ",";
+		s += birthDate + ",";
+		s += gender + ",";
+		s += birthPlace + ",";
+		s += home + ",";
+		s += studiedAt + ",";
+		s += workPlaces + ",";
+		s += films + ",";
+		s += groupCode + ",";
+		
+		return s;
 	}
 	
 	

@@ -11,7 +11,7 @@ public class main {
 	    network n1= new network();
 		
 		int i=0;
-		  String nombreFichero = "C:\\Users\\aritz\\Desktop\\UNI\\2\\DSA\\peopleG612056.txt";
+		  String nombreFichero = "peopleG612056.txt";	//**Must be able to load several people files!!
 	      //Declarar una variable BufferedReader
 		  BufferedReader br = null; 
 	      try {
