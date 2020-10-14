@@ -1,23 +1,18 @@
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.util.Scanner;
 
-public class main {
+public class Main {
 	
 	public static void main(String[] args) {
-	    network n1= new network();
-		
-		int i=0;
-		  String nombreFichero = "peopleG612056.txt";	//**Must be able to load several people files!!
-	      //Declarar una variable BufferedReader
-		  BufferedReader br = null; 
-	      try {
-	         //Crear un objeto BufferedReader al que se le pasa 
-	         //   un objeto FileReader con el nombre del fichero
-	         br = new BufferedReader(new FileReader(nombreFichero));
+	   
+		Network n1 = new Network();
+		String fileName = "peopleG612056.txt";	//**Must be able to load several people files!!
+
+		try {
+	         //BufferedReader creation
+	         BufferedReader br = new BufferedReader(new FileReader(fileName));
 	         //Leer las 2 primeras línea, guardando en un String
 	         String texto = br.readLine();
 	         texto = br.readLine();
@@ -47,28 +42,16 @@ public class main {
 	         while(texto != null)
 	         {
 	        	 
-	             
-	            
 	         }
-	      }
-	      catch (FileNotFoundException a) {
+	         
+		}
+		catch (FileNotFoundException a) {
 	          System.out.println("Error: Fichero no encontrado");
 	          System.out.println(a.getMessage());
-	      }
-	      catch(Exception e) {
+	          }
+	    catch(Exception e) {
 	          System.out.println("Error de lectura del fichero");
 	          System.out.println(e.getMessage());
-	      }
-	      finally {
-	          try {
-	              if(br != null)
-	                  br.close();
-	          }
-	          catch (Exception e) {
-	              System.out.println("Error al cerrar el fichero");
-	              System.out.println(e.getMessage());
-	          }
-	      }
-
+	    	  }
 	}
 }

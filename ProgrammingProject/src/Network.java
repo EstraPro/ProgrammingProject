@@ -6,14 +6,14 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class network {
+public class Network {
 	
-	public ArrayList<people> s1 = new ArrayList<>();
+	public ArrayList<People> s1 = new ArrayList<>();
 	public ArrayList<String> relations = new ArrayList<String>();
 	
 	
 	public void addPeople(String n1) {
-		people p1 = new people();
+		People p1 = new People();
 		String[] atributes= n1.split(",");	
 		
 		p1.setId(atributes[0]);
@@ -36,7 +36,7 @@ public class network {
 		try {
 			FileWriter wr = new FileWriter("newPeople.txt");
 			
-			for (people p : s1) {
+			for (People p : s1) {
 				
 				wr.write(p.toString());	//Look if writes new line
 			}

@@ -1,5 +1,6 @@
 
-public class people {
+public class People {
+	
 	private String id;
 	private String name;
 	private String lastName;
@@ -14,7 +15,7 @@ public class people {
 	
 	
 	
-	public people() {
+	public People() {
 	}
 	
 	
