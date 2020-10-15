@@ -8,7 +8,7 @@ public class Main {
 	public static void main(String[] args) {
 	   
 		Network n1 = new Network();
-		String fileName = "peopleG612056.txt";	//**Must be able to load several people files!!
+		String fileName = "files/peopleG612056.txt";	//**Must be able to load several people files!!
 
 		try {
 	         //BufferedReader creation
