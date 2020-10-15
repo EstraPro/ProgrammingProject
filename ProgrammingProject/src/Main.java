@@ -15,25 +15,24 @@ public class Main {
 	         //Scanner creation
 	         Scanner scan = new Scanner(new FileReader(fileName));
 	         //Leer las 2 primeras línea, guardando en un String
-	         scan.readLine();
-	         texto = br.readLine();
+	         scan.nextLine();
 	         //Repetir mientras no se llegue al final del fichero
 	        
 	         while(scan.hasNext()){
 	        	 
-	        	 String p= new String(texto);
+	        	 String p= scan.nextLine();
 	        	 n1.addPeople(p);
 	        	 System.out.println(p.toString());
 	         }      
 	         
 		}
-		/*catch (FileNotFoundException a) {
+		catch (FileNotFoundException a) {
 	          System.out.println("Error: Fichero no encontrado");
 	          System.out.println(a.getMessage());
 	          }
 	    catch(Exception e) {
 	          System.out.println("Error de lectura del fichero");
 	          System.out.println(e.getMessage());
-	    	  }*/
+	    	  }
 	}
 }
