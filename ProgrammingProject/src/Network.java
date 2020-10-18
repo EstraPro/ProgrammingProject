@@ -1,55 +1,66 @@
-
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Scanner;
 
+/**
+ * Class that represents a network
+ * @author ZSJ
+ */
 public class Network {
-	
-	public ArrayList<People> s1 = new ArrayList<>();
-	public ArrayList<String> r1 = new ArrayList<>();
-	
-	
-	public void addPeople(String n1) {
-		People p1 = new People();
-		String[] atributes= n1.split(",");	
+
+	public ArrayList<People> peopleList = new ArrayList<>();	//ArrayList for people
+	public ArrayList<String> relationList = new ArrayList<>();	//ArrayList for relationships
+
+	/**
+	 * Method that adds a person given his line of info 
+	 * @param info The string containing all the info
+	 */
+	public void addPeople(String info) {
 		
-		p1.setId(atributes[0]);
-		p1.setName(atributes[1]);
-		p1.setLastName(atributes[2]);
-		p1.setBirthDate(atributes[3]);
-		p1.setGender(atributes[4]);
-		p1.setBirthPlace(atributes[5]);
-		p1.setHome(atributes[6]);
-		p1.setStudiedAt(atributes[7]);
-		p1.setWorkPlaces(atributes[8]);
-		p1.setFilms(atributes[9]);
-		p1.setGroupCode(atributes[10]);
-		
-		s1.add(p1);
+		String[] atributes = info.split(",");	//Separate all the attributes
+		People p = new People();	//Create a new person that will be added to the list
+
+		p.setId(atributes[0]);			//Set each attribute to the corresponding place
+		p.setName(atributes[1]);		//...
+		p.setLastName(atributes[2]);	//...
+		p.setBirthDate(atributes[3]);
+		p.setGender(atributes[4]);
+		p.setBirthPlace(atributes[5]);
+		p.setHome(atributes[6]);
+		p.setStudiedAt(atributes[7]);
+		p.setWorkPlaces(atributes[8]);
+		p.setFilms(atributes[9]);
+		p.setGroupCode(atributes[10]);
+
+		peopleList.add(p);	//Finally add the person
 	}
-	
-	public void printNetworkToFile() {
-		System.out.println("");
+
+	/**
+	 * Method that print all people and
+	 * relationships in the network
+	 */
+	public void printNetwork() {
+
+		System.out.println("\nThe users: \n");
 		
-			System.out.println("the users:");
-			System.out.println("");
-			for(People p : s1) {
-				System.out.println(p.toString());
-			}
-			System.out.println("");
+		for (People p : peopleList) {	//Iterate all the people list
 			
-			System.out.println("The relationships:");
-			System.out.println("");
-			for(String r : r1) {
-				System.out.println(r);
-			}
-	}
-	
-	public void addRelation(String r) {
-		r1.add(r);
-	}
+			System.out.println(p.toString());	//Print out each person
+		}
 		
+		System.out.println("\nThe relationships: \n");
+		
+		for (String r : relationList) {	// Iterate all the relationships list
+			
+			System.out.println(r);	//Print out each relationship
+		}
+	}
+
+	/**
+	 * Method that adds a relation to the network
+	 * @param r the relation
+	 */
+	public void addRelation(String r) {
+		
+		relationList.add(r);	//Add the relation
+	}
+
 }

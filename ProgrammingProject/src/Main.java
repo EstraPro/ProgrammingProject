@@ -1,17 +1,25 @@
 import java.io.FileReader;
 import java.util.Scanner;
 
+/**
+ * Main class that executes the program
+ * @author ZSJ
+ */
 public class Main {
 
-	private static Network n = new Network();
-	private static Scanner sc = new Scanner(System.in);
+	private static Network net = new Network();				//Network creation
+	private static Scanner sc = new Scanner(System.in);		//Main scanner for console
 
+	/**
+	 * Main method
+	 * @param args
+	 */
 	public static void main(String[] args) {
 
-		int sel1;
+		int sel;
 		boolean exit = false;
 
-		while (!exit) {
+		while (!exit) {		//while not want to exit the program
 			
 			System.out.println("_______________------Menu------_______________\n");
 			System.out.println("1. Load 'people' in the network\n");
@@ -20,30 +28,30 @@ public class Main {
 			System.out.println("4. End and log out");
 			System.out.println("______________________________________________\n");
 			System.out.println("Your election:");
-			sel1 = sc.nextInt();
+			sel = sc.nextInt();	//save selection
 
-			switch (sel1) {
+			switch (sel) {	//Depending on the option selected
 			
-				case 1:	LoadPeopleToNetwork(n);
+				case 1:	LoadPeopleToNetwork();
 				break;
 
-				case 2:	LoadRelationshipToNetwork(n);
+				case 2:	LoadRelationshipToNetwork();
 				break;
 
-				case 3:	PrintOutEveryone(n);
+				case 3:	PrintOutEveryone();
 				break;
 
-				case 4:	exit = true;
+				case 4:	exit = true;	//Exit the program
 						System.out.println("----------You have loged out----------");
 				break;
 			}
 
-			if (!exit) {
+			if (!exit) {	//Only if exit is not selected
 				System.out.println("---------------------------------");
 				System.out.println("Do you want to continue? (1)YES / (2)NO");
 				System.out.println("---------------------------------");
 				
-				if (sc.nextInt() == 2) {
+				if (sc.nextInt() == 2) {	//If option NO selected
 					exit = true;
 					System.out.println("----------You have loged out----------");
 				}
@@ -54,90 +62,80 @@ public class Main {
 		sc.close();
 	}
 
-	public static void LoadPeopleToNetwork(Network net) {
+	/**
+	 * Method that loads all the people 
+	 * from the given file to the network
+	 */
+	public static void LoadPeopleToNetwork() {
 
 		System.out.print("\nEnter the directory of the file: \n");
-
-		String fileName = sc.nextLine();
+		String fileName = sc.nextLine();	//Directory of the file
 
 		try {
-			// BufferedReader creation
-			// BufferedReader br = new BufferedReader(new FileReader(fileName));
-			Scanner scan = new Scanner(new FileReader(fileName));
-			// Leer la primera línea, guardando en un String
-			scan.nextLine();
+			
+			Scanner fileScan = new Scanner(new FileReader(fileName));	//create the fileReader
+			fileScan.nextLine();	//Ignore the first line
 
-			while (scan.hasNext()) {
+			while (fileScan.hasNext()) {	//While not EOF
 
-				String p = scan.nextLine();
-				// Repetir mientras no se llegue al final del fichero
-
-				net.addPeople(p);
-
-				// System.out.println(p);
+				String p = fileScan.nextLine();	//Scan each person info
+				net.addPeople(p);	//Add the person to the network
 			}
-			System.out.println("");
-			System.out.println("Uploading files");
+			
+			System.out.println("\nUploading files:");
 			System.out.println("...");
 			System.out.println("...");
 			System.out.println("...");
-			System.out.println("done");
-			System.out.println("");
+			System.out.println("done!\n");
 
+			fileScan.close();
+			
 		} catch (Exception e) {
-			System.out.println("Error de lectura del fichero");
+			System.out.println("Error in file reading!");
 			System.out.println(e.getMessage());
 		}
 	}
 
-	public static void LoadRelationshipToNetwork(Network net) {
-		System.out.println("");
-		System.out.print("Enter the route of the file in your directory you want to upload: ");
-		System.out.println("");
-
-		Scanner scanner = new Scanner(System.in);
-
-		String fileName = scanner.nextLine();
-
-		// String fileName = "C:\\Users\\Iker Sancho\\Desktop\\peopleG612051.txt";
-		// //**Must be able to load several people files!!
+	/**
+	 * Method that load relations of the
+	 * given file to the network
+	 */
+	public static void LoadRelationshipToNetwork() {
+		
+		System.out.print("\nEnter the directory of the file: \n");
+		String fileName = sc.nextLine();	//Directory of the file
 
 		try {
-			// BufferedReader creation
-			// BufferedReader br = new BufferedReader(new FileReader(fileName));
-			Scanner scan = new Scanner(new FileReader(fileName));
-			// Leer la primera línea, guardando en un String
-			scan.nextLine();
+			
+			Scanner fileScan = new Scanner(new FileReader(fileName));
+			fileScan.nextLine();	//Ignore first line
 
-			while (scan.hasNext()) {
+			while (fileScan.hasNext()) {	//While not EOF
 
-				String r = scan.nextLine();
-				// Repetir mientras no se llegue al final del fichero
-
-				net.addRelation(r);
-				// System.out.println(p);
-
+				String r = fileScan.nextLine();		//Scan each relationship
+				net.addRelation(r);		//Add the relationship to the network
 			}
-			System.out.println("");
-			System.out.println("Uploading files");
+			
+			System.out.println("\nUploading files:");
 			System.out.println("...");
 			System.out.println("...");
 			System.out.println("...");
-			System.out.println("done");
-			System.out.println("");
+			System.out.println("done!\n");
 
 		} catch (Exception e) {
-			System.out.println("Error de lectura del fichero");
+			System.out.println("Error in file reading!");
 			System.out.println(e.getMessage());
 		}
 	}
 
-	public static void PrintOutEveryone(Network net) {
+	/**
+	 * Method that prints both people and 
+	 * relationships from the network
+	 */
+	public static void PrintOutEveryone() {
 		System.out.println("---------------------------------");
-		net.printNetworkToFile();
-		System.out.println("");
-		System.out.println("done");
-		System.out.println("");
+		net.printNetwork();
+		System.out.println("\ndone\n");
 		System.out.println("---------------------------------");
 	}
 
