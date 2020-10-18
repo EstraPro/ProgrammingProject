@@ -9,7 +9,7 @@ import java.util.Scanner;
 public class Network {
 	
 	public ArrayList<People> s1 = new ArrayList<>();
-	public ArrayList<String> relations = new ArrayList<String>();
+	public ArrayList<String> r1 = new ArrayList<>();
 	
 	
 	public void addPeople(String n1) {
@@ -32,28 +32,24 @@ public class Network {
 	}
 	
 	public void printNetworkToFile() {
+		System.out.println("");
 		
-		try {
-			FileWriter wr = new FileWriter("newPeople.txt");
-			
-			for (People p : s1) {
-				
-				wr.write(p.toString());	//Look if writes new line
+			System.out.println("the users:");
+			System.out.println("");
+			for(People p : s1) {
+				System.out.println(p.toString());
 			}
+			System.out.println("");
 			
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+			System.out.println("The relationships:");
+			System.out.println("");
+			for(String r : r1) {
+				System.out.println(r);
+			}
 	}
 	
-	public void addRelation() {
+	public void addRelation(String r) {
+		r1.add(r);
+	}
 		
-		File fr = new File("friends.txt");
-		try {
-			Scanner sc = new Scanner(fr);
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
-	}
-	
 }
