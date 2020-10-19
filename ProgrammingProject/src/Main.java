@@ -29,7 +29,8 @@ public class Main {
 			System.out.println("______________________________________________\n");
 			System.out.println("Your election:");
 			sel = sc.nextInt();	//save selection
-
+			sc.nextLine();
+			
 			switch (sel) {	//Depending on the option selected
 			
 				case 1:	LoadPeopleToNetwork();
@@ -55,7 +56,7 @@ public class Main {
 					exit = true;
 					System.out.println("----------You have loged out----------");
 				}
-				
+				sc.nextLine();
 			}
 		}
 		
