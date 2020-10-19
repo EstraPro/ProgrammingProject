@@ -1,3 +1,6 @@
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 
 /**
@@ -36,22 +39,34 @@ public class Network {
 	/**
 	 * Method that print all people and
 	 * relationships in the network
+	 * @throws FileNotFoundException 
 	 */
-	public void printNetwork() {
+	public void printNetwork(String s1) throws FileNotFoundException {
 
 		System.out.println("\nThe users: \n");
+		String pathh = s1;
+		File path1 = new File(pathh);
+		PrintWriter O1= new PrintWriter (path1);
 		
 		for (People p : peopleList) {	//Iterate all the people list
 			
 			System.out.println(p.toString());	//Print out each person
+			
+			O1.println(p.toString());
 		}
+		
+		
 		
 		System.out.println("\nThe relationships: \n");
 		
 		for (String r : relationList) {	// Iterate all the relationships list
 			
 			System.out.println(r);	//Print out each relationship
+			
+			O1.println(r);
 		}
+		
+		O1.close();
 	}
 
 	/**

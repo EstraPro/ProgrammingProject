@@ -1,3 +1,4 @@
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.Scanner;
 
@@ -39,7 +40,12 @@ public class Main {
 				case 2:	LoadRelationshipToNetwork();
 				break;
 
-				case 3:	PrintOutEveryone();
+				case 3:	try {
+					PrintOutEveryone();
+				} catch (FileNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				break;
 
 				case 4:	exit = true;	//Exit the program
@@ -131,13 +137,21 @@ public class Main {
 
 	/**
 	 * Method that prints both people and 
-	 * relationships from the network
+	 * relationships from the1 network
+	 * @throws FileNotFoundException 
 	 */
-	public static void PrintOutEveryone() {
+	public static void PrintOutEveryone() throws FileNotFoundException {
+		
+		///users/917790/git/ProgrammingProject/ProgrammingProject/files/peopleG612051.txt
+		System.out.print("\nEnter the directory of the file where you want to write: \n");
+		String choice = sc.nextLine();
+		
 		System.out.println("---------------------------------");
-		net.printNetwork();
+		net.printNetwork(choice);
 		System.out.println("\ndone\n");
 		System.out.println("---------------------------------");
+		
+		
 	}
 
 	public static void Search() {
