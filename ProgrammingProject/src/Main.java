@@ -29,6 +29,7 @@ public class Main {
 			System.out.println("5. Who are his friends?\n");
 			System.out.println("6. Who was born at that palce?\n");
 			System.out.println("7. Who was born between those two dates?\n");
+			System.out.println("8. Who ");
 			System.out.println("4. End and log out");
 			System.out.println("______________________________________________\n");
 			System.out.println("Your election:");

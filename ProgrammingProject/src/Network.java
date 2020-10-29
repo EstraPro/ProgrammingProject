@@ -13,6 +13,7 @@ public class Network {
 
 	public ArrayList<People> peopleList = new ArrayList<>();	//ArrayList for people
 	public ArrayList<String> relationList = new ArrayList<>();	//ArrayList for relationships
+	public ArrayList<ArrayList<String>> filmList = new ArrayList<>();
 
 	/**
 	 * Method that adds a person given his line of info 
@@ -200,6 +201,21 @@ public class Network {
 				System.out.println("");
 			}
 		}
+	}
+	
+	
+	public void homeTownMatchBirthPlacePeople(String homeTown) {
+		
+		for (People p1 : peopleList) {
+			
+			if(p1.getBirthPlace().equals(homeTown)) {
+				
+				System.out.println(p1.toString());
+				
+			}
+			
+		}
+		
 	}
 
 }
