@@ -26,6 +26,9 @@ public class Main {
 			System.out.println("1. Load 'people' in the network\n");
 			System.out.println("2. Load 'relationships' in the network\n");
 			System.out.println("3. Print out the list of our network users\n");
+			System.out.println("5. Who are his friends?\n");
+			System.out.println("6. Who was born at that palce?\n");
+			System.out.println("7. Who was born between those two dates?\n");
 			System.out.println("4. End and log out");
 			System.out.println("______________________________________________\n");
 			System.out.println("Your election:");
@@ -39,6 +42,18 @@ public class Main {
 
 				case 2:	LoadRelationshipToNetwork();
 				break;
+				
+				case 5: WhoareHisFriends();	//Exit the program
+				
+				break;
+				
+				case 6: WhoWasBronThere();	//Exit the program
+				
+				break;
+				
+				case 7: WhowasBornAtThisData();	//Exit the program
+				
+				break;
 
 				case 3:	try {
 					PrintOutEveryone();
@@ -51,6 +66,7 @@ public class Main {
 				case 4:	exit = true;	//Exit the program
 						System.out.println("----------You have loged out----------");
 				break;
+					
 			}
 
 			if (!exit) {	//Only if exit is not selected
@@ -69,6 +85,65 @@ public class Main {
 		sc.close();
 	}
 
+	public static void WhowasBornAtThisData() {
+		String a1="";
+		String a2="";
+		
+		System.out.println("\nEnter two data values to find the persons born between those two:");
+		
+		System.out.println("\nThe first one:");
+		
+		String Data1 = sc.nextLine();  // Read user input
+			
+			a1= Data1;
+			
+		System.out.println("\nThe second one:");
+		
+		String Data2 = sc.nextLine();  // Read user input
+		
+			a2= Data2;
+			
+		net.returnPeoplefromDatas(a1, a2);
+	}
+
+	
+	
+	public static void WhoWasBronThere() {
+		
+		System.out.print("\nEnter the name of the place: \n");
+		
+		String Place = sc.nextLine();  // Read user input
+		
+		net.returnIdaAndLastNameFromBirthplace(Place);
+	}
+	
+	
+	public static void WhoareHisFriends () {
+		boolean f1=false;
+		
+		System.out.print("\nEnter the Surname of the person you want to stalk: \n");
+		
+		String LastName = sc.nextLine();  // Read user input
+		
+		// /media/917790/E431-CEB4/UNI/ProgrammingProject/files/peopleG612051.txt
+		
+		System.out.println("LastName is: " + LastName);  // Output user input
+		 
+		 System.out.println("");
+		 System.out.println("His friends are:");
+		 System.out.println("");
+		 	 
+		 for (People po: net.peopleList) {
+			
+			 if(po.getLastName().equals(LastName) && f1==false) {
+					
+				 f1=true;
+				 
+				 net.returnRelationsFromSurname(LastName);
+				 	System.out.println("");
+			 }
+		 }
+	}
 	/**
 	 * Method that loads all the people 
 	 * from the given file to the network
