@@ -114,21 +114,21 @@ public class Network {
 			day= b1[0]; 
 			month= b1[1]; 
 			year= b1[2];
-			System.out.println(day+" "+month+" "+year);
+			//System.out.println(day+" "+month+" "+year);
 			int i0 = Integer. parseInt(year);
 			int i1 = Integer. parseInt(d1);
 			int i2 = Integer. parseInt(d2);
 				
-			System.out.println(i0+ " " + i1 + " " + i2);
+			//System.out.println(i0+ " " + i1 + " " + i2);
 			
-			if (i1<=i0 && i0>i2) { //this if dosn't work 
+			if (i1<=i0 && i0<=i2) { //this if dosn't work 
 				
-				nameandLast=p1.getLastName()+""+p1.getName();
+				nameandLast=p1.getLastName()+" "+p1.getName();
 				
 				vector.add(nameandLast);
 				
-				System.out.println(nameandLast);
-				System.out.println("a");
+				//System.out.println(nameandLast);
+				//System.out.println("a");
 			}
 			
 			i++;
