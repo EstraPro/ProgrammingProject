@@ -7,26 +7,28 @@ import java.util.Vector;
 
 /**
  * Class that represents a network
+ * 
  * @author ZSJ
  */
 public class Network {
 
-	public ArrayList<People> peopleList = new ArrayList<>();	//ArrayList for people
-	public ArrayList<String> relationList = new ArrayList<>();	//ArrayList for relationships
+	public ArrayList<People> peopleList = new ArrayList<>(); // ArrayList for people
+	public ArrayList<String> relationList = new ArrayList<>(); // ArrayList for relationships
 	public ArrayList<ArrayList<String>> filmList = new ArrayList<>();
 
 	/**
-	 * Method that adds a person given his line of info 
+	 * Method that adds a person given his line of info
+	 * 
 	 * @param info The string containing all the info
 	 */
 	public void addPeople(String info) {
-		
-		String[] atributes = info.split(",");	//Separate all the attributes
-		People p = new People();	//Create a new person that will be added to the list
 
-		p.setId(atributes[0]);			//Set each attribute to the corresponding place
-		p.setName(atributes[1]);		//...
-		p.setLastName(atributes[2]);	//...
+		String[] atributes = info.split(","); // Separate all the attributes
+		People p = new People(); // Create a new person that will be added to the list
+
+		p.setId(atributes[0]); // Set each attribute to the corresponding place
+		p.setName(atributes[1]); // ...
+		p.setLastName(atributes[2]); // ...
 		p.setBirthDate(atributes[3]);
 		p.setGender(atributes[4]);
 		p.setBirthPlace(atributes[5]);
@@ -36,186 +38,168 @@ public class Network {
 		p.setFilms(atributes[9]);
 		p.setGroupCode(atributes[10]);
 
-		peopleList.add(p);	//Finally add the person
+		peopleList.add(p); // Finally add the person
 	}
 
 	/**
-	 * Method that print all people and
-	 * relationships in the network
-	 * @throws FileNotFoundException 
+	 * Method that print all people and relationships in the network
+	 * 
+	 * @throws FileNotFoundException
 	 */
 	public void printNetwork(String s1) throws FileNotFoundException {
 
 		System.out.println("\nThe users: \n");
 		String pathh = s1;
 		File path1 = new File(pathh);
-		PrintWriter O1= new PrintWriter (path1);
-		
-		for (People p : peopleList) {	//Iterate all the people list
-			
-			System.out.println(p.toString());	//Print out each person
-			
+		PrintWriter O1 = new PrintWriter(path1);
+
+		for (People p : peopleList) { // Iterate all the people list
+
+			System.out.println(p.toString()); // Print out each person
+
 			O1.println(p.toString());
 		}
-		
-		
-		
+
 		System.out.println("\nThe relationships: \n");
-		
-		for (String r : relationList) {	// Iterate all the relationships list
-			
-			System.out.println(r);	//Print out each relationship
-			
+
+		for (String r : relationList) { // Iterate all the relationships list
+
+			System.out.println(r); // Print out each relationship
+
 			O1.println(r);
 		}
-		
+
 		O1.close();
 	}
 
 	/**
 	 * Method that adds a relation to the network
+	 * 
 	 * @param r the relation
 	 */
 	public void addRelation(String r) {
-		
-		relationList.add(r);	//Add the relation
-	}
-	
-	
-	public String getSurnfromId(String S1E) {
-		
-		String mySurn ="";
-		
-		for(People p1: peopleList) {
-			
-			if(S1E.equals(p1.getId())) {
-			
-				mySurn=p1.getLastName();
-			}
-		}
-		
-		return mySurn;
-	}
-	
-	
-	@SuppressWarnings("null")
-	public void returnPeoplefromDatas(String d1, String d2) {
-		String Date="";
-		String day,month,year="";
-		Vector<String> vector = new Vector<String>();
-		String nameandLast="";
 
-		int i = 0;
-		
-		for(People p1: peopleList) {
-			
-			Date=p1.getBirthDate();
-			
-			String[] b1= Date.split("-");
-			day= b1[0]; 
-			month= b1[1]; 
-			year= b1[2];
-			//System.out.println(day+" "+month+" "+year);
-			int i0 = Integer. parseInt(year);
-			int i1 = Integer. parseInt(d1);
-			int i2 = Integer. parseInt(d2);
-				
-			//System.out.println(i0+ " " + i1 + " " + i2);
-			
-			if (i1<=i0 && i0<=i2) { //this if dosn't work 
-				
-				nameandLast=p1.getLastName()+" "+p1.getName();
-				
-				vector.add(nameandLast);
-				
-				//System.out.println(nameandLast);
-				//System.out.println("a");
-			}
-			
-			i++;
-		}
-		
-		Collections.sort(vector);
-		System.out.println("");
-		System.out.println("people between these tow dates sorted by lexicographic order:");
-	    
-		for(int y=0; y < vector.size(); y++){
-	        System.out.println("");
-			System.out.println("-" + y + " " + vector.get(y));
-		}
+		relationList.add(r); // Add the relation
 	}
-	
-	
-	public void returnRelationsFromSurname(String sur) {
-		String S1E1=null;
-		String S1E2=null;
-		String LastName = null;
-		String AiD = null;
-		
-		String a1="";
-		String a2="";
-		
-				for (String s1: relationList) {
-			
-					String[] b1= s1.split(",");
-					S1E1= b1[0]; // The Id of the first person in the Relationslist
-					S1E2= b1[1]; // his friend
-					
-					a1=getSurnfromId(S1E1);
-					//System.out.println(S1E1);
-					//System.out.println(a1);
-			
-					a2=getSurnfromId(S1E2);
-					
-					//System.out.println(a2);
-				
-					
-					if(a1.equals(sur)) {
-						System.out.println("");
-						System.out.println("("+ S1E1 +")");
-						System.out.println("");
-						System.out.println("	friend's ID:" + " " + S1E2 );
-						System.out.println("	friend's Lastname:" + " " + a2);
-					}
-			
-		}
-	}
-	
-	
-	
-	public void returnIdaAndLastNameFromBirthplace(String r) {
-		String r1 = "female";
-		for (People p1: peopleList) {
-			
-			if(p1.getBirthPlace().equals(r)) {
-				
-				System.out.println("");
-				
-				if (p1.getGender().equals(r1)) {
-				System.out.println("this is her ID:" + " " + p1.getId());
-				System.out.println("this is her LastName:" + " " +p1.getLastName());
-				System.out.println("");
-				}else
-				System.out.println("this is his ID:" + " " + p1.getId());
-				System.out.println("this is his LastName:" + " " +p1.getLastName());
-				System.out.println("");
-			}
-		}
-	}
-	
-	
-	public void homeTownMatchBirthPlacePeople(String homeTown) {
-		
+
+	/**
+	 * Method that returns the surname of the given ID
+	 * @param id
+	 * @return
+	 */
+	public String getSurnFromId(String id) {
+
+		String s = "";
+
 		for (People p1 : peopleList) {
-			
-			if(p1.getBirthPlace().equals(homeTown)) {
-				
-				System.out.println(p1.toString());
-				
+
+			if (id.equals(p1.getId())) {
+
+				s = p1.getLastName();
 			}
-			
 		}
-		
+
+		return s;
+	}
+
+	/**
+	 * Method that prints the people between the given years
+	 * @param d1
+	 * @param d2
+	 */
+	public void printPeopleFromDates(String d1, String d2) {
+
+		String year;
+		Vector<String> vector = new Vector<String>();
+		String wholeName;
+
+		for (People p : peopleList) {
+
+			String[] date = p.getBirthDate().split("-");
+			year = date[2];
+
+			int givenYear = Integer.parseInt(year);
+			int bottomLimit = Integer.parseInt(d1);
+			int upperLimit = Integer.parseInt(d2);
+
+			if (bottomLimit <= givenYear && givenYear <= upperLimit) { 
+
+				wholeName = p.getLastName() + " " + p.getName();
+
+				vector.add(wholeName);
+			}
+		}
+
+		Collections.sort(vector);
+		System.out.println("\nPeople between these tow dates sorted by lexicographic order:");
+
+		for (int i = 0; i < vector.size(); i++) {
+
+			System.out.println("\n-" + i + " " + vector.get(i));
+		}
+	}
+
+	/**
+	 * Method that prints the friends of the given person's surname
+	 * @param sur
+	 */
+	public void printRelationsFromSurname(String sur) {
+		String id1, id2;
+		String sur1, sur2;
+
+		for (String s : relationList) {
+
+			String[] pair = s.split(",");
+			id1 = pair[0]; // The Id of the first person in the relationslist
+			id2 = pair[1]; // The corresponding friend
+
+			sur1 = getSurnFromId(id1);
+			sur2 = getSurnFromId(id2);
+
+			if (sur1.equals(sur)) {
+				
+				System.out.println("\n(" + id1 + ")");
+				System.out.println("\n	Friend's ID: " + id2);
+				System.out.println("	Friend's Lastname: " + sur2 + "\n");
+			}
+		}
+	}
+
+	/**
+	 * Method that print people from the given birthplace
+	 * @param place
+	 */
+	public void printPeopleFromBirthplace(String place) {
+
+		for (People p : peopleList) {
+
+			if (p.getBirthPlace().equals(place)) {
+
+				if (p.getGender().equals("female")) {
+
+					System.out.println("\nHer ID: " + p.getId());
+					System.out.println("Her surname: " + p.getLastName() + "\n");
+				} else {
+
+					System.out.println("\nHis ID: " + p.getId());
+					System.out.println("His surname: " + p.getLastName() + "\n");
+				}
+			}
+		}
+	}
+
+	public void homeTownMatchBirthPlacePeople(String homeTown) {
+
+		for (People p1 : peopleList) {
+
+			if (p1.getBirthPlace().equals(homeTown)) {
+
+				System.out.println(p1.toString());
+
+			}
+
+		}
+
 	}
 
 }
