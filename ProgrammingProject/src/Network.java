@@ -14,7 +14,7 @@ public class Network {
 
 	public ArrayList<People> peopleList = new ArrayList<>(); // ArrayList for people
 	public ArrayList<String> relationList = new ArrayList<>(); // ArrayList for relationships
-	public ArrayList<ArrayList<String>> filmList = new ArrayList<>();
+	public ArrayList<ArrayList<People>> filmList = new ArrayList<>();
 	int i = 0;
 	/**
 	 * Method that adds a person given his line of info
@@ -202,38 +202,42 @@ public class Network {
 
 	}
 	
-	public void matchFilms(People p1) {
-		boolean match=true;
-		String s = p1.getFilms();
-		
-		String[] pair = s.split(";");
-		for(String s1: pair) {
-			for(People p2: peopleList) {
-				if(!p2.getId().equals(p1.getId())) {
-					
-					String s2 = p2.getFilms();
-					
+	public void matchFilms(People pIn) {
+
+		boolean match = true;
+		String films = pIn.getFilms();
+
+		String[] filmsIn = films.split(";");
+
+			for (People pTheOther : peopleList) {
+
+				if (!pTheOther.getId().equals(pIn.getId())) {
+
+					String s2 = pTheOther.getFilms();
+
 					String[] pair2 = s2.split(";");
 					ArrayList<String> PairList = new ArrayList<String>();
-					for(String s3: pair2) {
+
+					for (String s3 : pair2) {
 						PairList.add(s3);
 					}
 					
-					if(!PairList.contains(s1)) {
-						System.out.println("They don match");
-						match=false;
+					for (String s : filmsIn) {
+						
+						if(!PairList.contains(s)) match = false;
 					}
+					
+					if(match) {
+						
+						filmList.get(i).add(pIn);
+						filmList.get(i).add(pTheOther);
+						i++;
+					}
+					
+					match = true;
 				}
-				
-				
+
 			}
-		}
-		
-		if (match) {
-			System.out.println("they match");
-			
-			
-		}
 	}
 
 }
