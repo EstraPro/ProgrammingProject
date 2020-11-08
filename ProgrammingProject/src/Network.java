@@ -1,8 +1,10 @@
+import java.util.List;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Vector;
 
 /**
@@ -11,7 +13,7 @@ import java.util.Vector;
  * @author ZSJ
  */
 public class Network {
-
+	
 	public ArrayList<People> peopleList = new ArrayList<>(); // ArrayList for people
 	public ArrayList<String> relationList = new ArrayList<>(); // ArrayList for relationships
 	public ArrayList<ArrayList<People>> filmList = new ArrayList<>();
@@ -48,27 +50,28 @@ public class Network {
 	 */
 	public void printNetwork(String s1) throws FileNotFoundException {
 
-		System.out.println("\nThe users: \n");
+		
 		String pathh = s1;
 		File path1 = new File(pathh);
 		PrintWriter O1 = new PrintWriter(path1);
 
 		for (People p : peopleList) { // Iterate all the people list
 
-			System.out.println(p.toString()); // Print out each person
-
 			O1.println(p.toString());
 		}
 
-		System.out.println("\nThe relationships: \n");
 
 		for (String r : relationList) { // Iterate all the relationships list
 
-			System.out.println(r); // Print out each relationship
-
 			O1.println(r);
 		}
-
+		
+		System.out.println("\nprinting network to a file:");
+		System.out.println("...");
+		System.out.println("...");
+		System.out.println("...");
+		System.out.println("done!\n");
+		
 		O1.close();
 	}
 
@@ -107,14 +110,14 @@ public class Network {
 	 * @param d1
 	 * @param d2
 	 */
-	public void printPeopleFromDates(String d1, String d2) {
+	public ArrayList<People> printPeopleFromDates(String d1, String d2) {
 
 		String year;
-		Vector<String> vector = new Vector<String>();
-		String wholeName;
-
+		//<String> vector = new Vector<String>();
+		ArrayList<People> peopleL = new ArrayList<People>();
+		
 		for (People p : peopleList) {
-
+			
 			String[] date = p.getBirthDate().split("-");
 			year = date[2];
 
@@ -122,23 +125,22 @@ public class Network {
 			int bottomLimit = Integer.parseInt(d1);
 			int upperLimit = Integer.parseInt(d2);
 
+			
 			if (bottomLimit <= givenYear && givenYear <= upperLimit) { 
-
-				wholeName = p.getLastName() + " " + p.getName();
-
-				vector.add(wholeName);
+				
+				peopleL.add(p);
+				
 			}
+			
 		}
-
-		Collections.sort(vector);
-		System.out.println("\nPeople between these tow dates sorted by lexicographic order:");
-
-		for (int i = 0; i < vector.size(); i++) {
-
-			System.out.println("\n-" + i + " " + vector.get(i));
-		}
+	
+		return peopleL;
+		
 	}
 
+	
+	
+	
 	/**
 	 * Method that prints the friends of the given person's surname
 	 * @param sur

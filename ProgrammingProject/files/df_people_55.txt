@@ -28,7 +28,7 @@ Olatz001,Olatz,Castano,15-11-1994,female,Barakaldo,Donosti,EHU,Computer_Science,
 Markel002,Markel,Chen,01-01-1990,male,Bacelona,Bolaños_de_Calatraba,Donosti,Cooking,Penguin,G6105
 Maria001,Maria,Garcia,05-06-1994,female,Eibar,Donosti,EHU,Computer_Science,Despicable_Me,G6105
 Carla001,Carla,Aldabaldetrecu,4-11-1994,female,Donostia,Donostia,UPV,Donostia,Despicable_Me;Grown_Ups,G6106
-Laura001,Laura,Gran,19-6-1994,female,Donostia,Donostia,UPV,Donostia,Despicable_Me;Agora,G6106
+Laura001,Laura,Garcia,19-6-1994,female,Donostia,Donostia,UPV,Donostia,Despicable_Me;Agora,G6106
 Olivia002,Olivia,Olazabal,28-3-1994,female,Irun,Irun,UPV,Donostia,Despicable_Me;Dear_John,G6106
 Leire002,Leire,Roa,7-2-1993,female,Irun,Irun,UPV,Donostia,Despicable_Me;Love_And_Other_Drugs,G6106
 Marta059,Marta,Garcia,8-5-1994,female,Donostia,Madrid,UPV,Donostia,Ramona_and_Beezus;Babies,G6106

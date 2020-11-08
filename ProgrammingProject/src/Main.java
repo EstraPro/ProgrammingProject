@@ -1,5 +1,8 @@
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Scanner;
 
 /**
@@ -96,7 +99,7 @@ public class Main {
 	 * printPeopleFromDates()
 	 */
 	public static void WhoWasBornThisYears() {
-
+		ArrayList<People> Al = new ArrayList<People>();
 		String y1, y2;
 
 		System.out.println("Find people between this years:");
@@ -106,19 +109,41 @@ public class Main {
 
 		System.out.println("\nTo:");
 		y2 = sc.nextLine(); // To year y2
-
-		net.printPeopleFromDates(y1, y2); // Print out the people
+		
+		System.out.println("\n---The people born between these dates---");
+		System.out.println("");
+		for(People p1 :net.printPeopleFromDates(y1, y2)) {
+			System.out.println(p1.toString());
+			Al.add(p1);
+		}
+		
+		System.out.println("\n---same people but sorted by birthplace, surname and name---");
+		System.out.println("");
+		Collections.sort(Al, new PeopleChainedComparator(
+                new BirthPlaceComparator(),
+                new SurnameComparator(),
+                new NameComparator())
+        );
+		
+		for (People p1:Al) {
+			
+			System.out.println(p1.toString());
+			
+		}
 	}
+	
 
-	/**
-	 * Method that prints out the people born at that given place
-	 */
+		//C:\Users\Iker Sancho\git\ProgrammingProject\ProgrammingProject\files\peopleG612051.txt
+		 
+		
 	public static void WhoWasBornThere() {
 
 		System.out.print("\nEnter the name of the place: \n");
 		String place = sc.nextLine(); // Read user input
 
 		net.printPeopleFromBirthplace(place); // Print people
+		
+		
 	}
 
 	/**
@@ -216,7 +241,15 @@ public class Main {
 	 * @throws FileNotFoundException
 	 */
 	public static void PrintOutEveryone() throws FileNotFoundException {
-
+		System.out.println("\nDo you want to print the network on a file or just in the console?");
+		System.out.println("\n [1] print on the console");
+		System.out.println("\n [2] print on a file");
+		System.out.println("");
+		System.out.println("your choice:");
+		int sel = sc.nextInt(); // save selection
+		sc.nextLine();
+		
+		if(sel==2) {
 		/// users/917790/git/ProgrammingProject/ProgrammingProject/files/peopleG612051.txt
 		System.out.print("\nEnter the directory of the file where you want to write: \n");
 		String choice = sc.nextLine();
@@ -225,7 +258,16 @@ public class Main {
 		net.printNetwork(choice);
 		System.out.println("\ndone\n");
 		System.out.println("---------------------------------");
-
+		}else {
+		System.out.println("");
+		for (People p1: net.peopleList) {
+			System.out.println(p1.toString());
+		}
+		System.out.println("");
+		for (String s1: net.relationList) {
+			System.out.println(s1);
+		}
+		}
 	}
 
 	public static void Search() {
