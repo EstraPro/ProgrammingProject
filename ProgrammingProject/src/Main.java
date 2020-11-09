@@ -2,7 +2,6 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.Scanner;
 
 /**
@@ -99,51 +98,48 @@ public class Main {
 	 * printPeopleFromDates()
 	 */
 	public static void WhoWasBornThisYears() {
-		ArrayList<People> Al = new ArrayList<People>();
+
+		ArrayList<People> al = new ArrayList<People>();
 		String y1, y2;
 
 		System.out.println("Find people between this years:");
-		
+
 		System.out.println("\nFrom:");
 		y1 = sc.nextLine(); // From year y1
 
 		System.out.println("\nTo:");
 		y2 = sc.nextLine(); // To year y2
+
+		System.out.println("\n---The people born between these dates---\n");
 		
-		System.out.println("\n---The people born between these dates---");
-		System.out.println("");
-		for(People p1 :net.printPeopleFromDates(y1, y2)) {
-			System.out.println(p1.toString());
-			Al.add(p1);
+		for (People p : net.printPeopleFromDates(y1, y2)) {
+			
+			System.out.println(p.toString());
+			al.add(p);
 		}
-		
-		System.out.println("\n---same people but sorted by birthplace, surname and name---");
-		System.out.println("");
-		Collections.sort(Al, new PeopleChainedComparator(
-                new BirthPlaceComparator(),
-                new SurnameComparator(),
-                new NameComparator())
-        );
-		
-		for (People p1:Al) {
-			
+
+		System.out.println("\n---Same people but sorted by birthplace, surname and name---\n");
+		Collections.sort(al, new PeopleChainedComparator(new BirthPlaceComparator(), new SurnameComparator(), new NameComparator()));
+
+		for (People p1 : al) {
+
 			System.out.println(p1.toString());
-			
+
 		}
 	}
-	
 
-		//C:\Users\Iker Sancho\git\ProgrammingProject\ProgrammingProject\files\peopleG612051.txt
-		 
-		
+	// C:\Users\IkerSancho\git\ProgrammingProject\ProgrammingProject\files\peopleG612051.txt
+
+	/**
+	 * Method that prints out the people born at that given place
+	 */
 	public static void WhoWasBornThere() {
 
 		System.out.print("\nEnter the name of the place: \n");
 		String place = sc.nextLine(); // Read user input
 
 		net.printPeopleFromBirthplace(place); // Print people
-		
-		
+
 	}
 
 	/**
@@ -154,19 +150,19 @@ public class Main {
 		boolean found = false;
 
 		System.out.print("\nEnter the SURNAME of the person you want to stalk: \n");
-		String lastName = sc.nextLine(); 
+		String lastName = sc.nextLine();
 
 		// /media/917790/E431-CEB4/UNI/ProgrammingProject/files/peopleG612051.txt
 
-		System.out.println("The given surname is: " + lastName); 
-		System.out.println("\nHis friends are:\n");
+		System.out.println("The given surname is: " + lastName);
+		System.out.println("\nHis/Her friends are:\n");
 
-		for (People po : net.peopleList) {
+		for (People p : net.peopleList) {
 
-			if (po.getLastName().equals(lastName) && found == false) {
+			if (p.getLastName().equals(lastName) && found == false) {
 
 				found = true;
-				net.printRelationsFromSurname(lastName); //Print friends
+				net.printRelationsFromSurname(lastName); // Print friends
 			}
 		}
 	}
@@ -190,11 +186,7 @@ public class Main {
 				net.addPeople(p); // Add the person to the network
 			}
 
-			System.out.println("\nUploading files:");
-			System.out.println("...");
-			System.out.println("...");
-			System.out.println("...");
-			System.out.println("done!\n");
+			System.out.println("\nUploading files: \n...\n...\n...\nDone!\n");
 
 			fileScan.close();
 
@@ -223,11 +215,7 @@ public class Main {
 				net.addRelation(r); // Add the relationship to the network
 			}
 
-			System.out.println("\nUploading files:");
-			System.out.println("...");
-			System.out.println("...");
-			System.out.println("...");
-			System.out.println("done!\n");
+			System.out.println("\nUploading files: \n...\n...\n...\nDone!\n");
 
 		} catch (Exception e) {
 			System.out.println("Error in file reading!");
@@ -242,31 +230,29 @@ public class Main {
 	 */
 	public static void PrintOutEveryone() throws FileNotFoundException {
 		System.out.println("\nDo you want to print the network on a file or just in the console?");
-		System.out.println("\n [1] print on the console");
-		System.out.println("\n [2] print on a file");
-		System.out.println("");
-		System.out.println("your choice:");
+		System.out.println("[1] Print on the console \n[2] Print on a file\n");
+		System.out.println("Enter your choice:");
 		int sel = sc.nextInt(); // save selection
 		sc.nextLine();
-		
-		if(sel==2) {
-		/// users/917790/git/ProgrammingProject/ProgrammingProject/files/peopleG612051.txt
-		System.out.print("\nEnter the directory of the file where you want to write: \n");
-		String choice = sc.nextLine();
 
-		System.out.println("---------------------------------");
-		net.printNetwork(choice);
-		System.out.println("\ndone\n");
-		System.out.println("---------------------------------");
-		}else {
-		System.out.println("");
-		for (People p1: net.peopleList) {
-			System.out.println(p1.toString());
-		}
-		System.out.println("");
-		for (String s1: net.relationList) {
-			System.out.println(s1);
-		}
+		if (sel == 2) {
+			/// users/917790/git/ProgrammingProject/ProgrammingProject/files/peopleG612051.txt
+			System.out.print("\nEnter the directory of the file where you want to write: \n");
+			String choice = sc.nextLine();
+
+			System.out.println("---------------------------------");
+			net.printNetwork(choice);
+			System.out.println("\nDone\n");
+			System.out.println("---------------------------------");
+		} else {
+			System.out.println("");
+			for (People p : net.peopleList) {
+				System.out.println(p.toString());
+			}
+			System.out.println("");
+			for (String s : net.relationList) {
+				System.out.println(s);
+			}
 		}
 	}
 

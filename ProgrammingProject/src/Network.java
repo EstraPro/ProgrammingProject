@@ -1,11 +1,7 @@
-import java.util.List;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Vector;
 
 /**
  * Class that represents a network
@@ -13,11 +9,12 @@ import java.util.Vector;
  * @author ZSJ
  */
 public class Network {
-	
+
 	public ArrayList<People> peopleList = new ArrayList<>(); // ArrayList for people
 	public ArrayList<String> relationList = new ArrayList<>(); // ArrayList for relationships
 	public ArrayList<ArrayList<People>> filmList = new ArrayList<>();
 	int i = 0;
+
 	/**
 	 * Method that adds a person given his line of info
 	 * 
@@ -48,31 +45,28 @@ public class Network {
 	 * 
 	 * @throws FileNotFoundException
 	 */
-	public void printNetwork(String s1) throws FileNotFoundException {
+	public void printNetwork(String s) throws FileNotFoundException {
 
-		
-		String pathh = s1;
-		File path1 = new File(pathh);
-		PrintWriter O1 = new PrintWriter(path1);
+		File path = new File(s);
+		PrintWriter pw = new PrintWriter(path);
 
 		for (People p : peopleList) { // Iterate all the people list
 
-			O1.println(p.toString());
+			pw.println(p.toString());
 		}
-
 
 		for (String r : relationList) { // Iterate all the relationships list
 
-			O1.println(r);
+			pw.println(r);
 		}
-		
+
 		System.out.println("\nprinting network to a file:");
 		System.out.println("...");
 		System.out.println("...");
 		System.out.println("...");
 		System.out.println("done!\n");
-		
-		O1.close();
+
+		pw.close();
 	}
 
 	/**
@@ -87,6 +81,7 @@ public class Network {
 
 	/**
 	 * Method that returns the surname of the given ID
+	 * 
 	 * @param id
 	 * @return
 	 */
@@ -94,11 +89,11 @@ public class Network {
 
 		String s = "";
 
-		for (People p1 : peopleList) {
+		for (People p : peopleList) {
 
-			if (id.equals(p1.getId())) {
+			if (id.equals(p.getId())) {
 
-				s = p1.getLastName();
+				s = p.getLastName();
 			}
 		}
 
@@ -107,17 +102,18 @@ public class Network {
 
 	/**
 	 * Method that prints the people between the given years
+	 * 
 	 * @param d1
 	 * @param d2
 	 */
 	public ArrayList<People> printPeopleFromDates(String d1, String d2) {
 
 		String year;
-		//<String> vector = new Vector<String>();
+		// <String> vector = new Vector<String>();
 		ArrayList<People> peopleL = new ArrayList<People>();
-		
+
 		for (People p : peopleList) {
-			
+
 			String[] date = p.getBirthDate().split("-");
 			year = date[2];
 
@@ -125,27 +121,22 @@ public class Network {
 			int bottomLimit = Integer.parseInt(d1);
 			int upperLimit = Integer.parseInt(d2);
 
-			
-			if (bottomLimit <= givenYear && givenYear <= upperLimit) { 
-				
+			if (bottomLimit <= givenYear && givenYear <= upperLimit) {
+
 				peopleL.add(p);
-				
 			}
-			
 		}
-	
+
 		return peopleL;
-		
 	}
 
-	
-	
-	
 	/**
 	 * Method that prints the friends of the given person's surname
+	 * 
 	 * @param sur
 	 */
 	public void printRelationsFromSurname(String sur) {
+		
 		String id1, id2;
 		String sur1, sur2;
 
@@ -159,7 +150,7 @@ public class Network {
 			sur2 = getSurnFromId(id2);
 
 			if (sur1.equals(sur)) {
-				
+
 				System.out.println("\n(" + id1 + ")");
 				System.out.println("\n	Friend's ID: " + id2);
 				System.out.println("	Friend's Lastname: " + sur2 + "\n");
@@ -169,6 +160,7 @@ public class Network {
 
 	/**
 	 * Method that print people from the given birthplace
+	 * 
 	 * @param place
 	 */
 	public void printPeopleFromBirthplace(String place) {
@@ -192,54 +184,59 @@ public class Network {
 
 	public void homeTownMatchBirthPlacePeople(String homeTown) {
 
-		for (People p1 : peopleList) {
+		for (People p : peopleList) {
 
-			if (p1.getBirthPlace().equals(homeTown)) {
+			if (p.getBirthPlace().equals(homeTown)) {
 
-				System.out.println(p1.toString());
+				System.out.println(p.toString());
 
 			}
 
 		}
 
 	}
-	
+
+	/**
+	 * Method that groups people by the films they like
+	 * @param pIn
+	 */
 	public void matchFilms(People pIn) {
 
 		boolean match = true;
-		String films = pIn.getFilms();
+		String films = pIn.getFilms(); 	//String with all favorite films
 
-		String[] filmsIn = films.split(";");
+		String[] filmsIn = films.split(";");	//String array of the films
 
-			for (People pTheOther : peopleList) {
+		for (People pTheOther : peopleList) {	//For each other person
 
-				if (!pTheOther.getId().equals(pIn.getId())) {
+			if (!pTheOther.getId().equals(pIn.getId())) {	//IFF they are not the same person
 
-					String s2 = pTheOther.getFilms();
+				String films2 = pTheOther.getFilms();	//String with the films of the other
 
-					String[] pair2 = s2.split(";");
-					ArrayList<String> PairList = new ArrayList<String>();
+				String[] filmsOther = films2.split(";");	//String array of the films
+				ArrayList<String> filmsOtherAL = new ArrayList<String>();	//Auxiliary ArrayList
 
-					for (String s3 : pair2) {
-						PairList.add(s3);
-					}
-					
-					for (String s : filmsIn) {
-						
-						if(!PairList.contains(s)) match = false;
-					}
-					
-					if(match) {
-						
-						filmList.get(i).add(pIn);
-						filmList.get(i).add(pTheOther);
-						i++;
-					}
-					
-					match = true;
+				for (String s : filmsOther) {	//Convert from String[] to ArrayList
+					filmsOtherAL.add(s);		//to be able to use .contains()
 				}
 
+				for (String s : filmsIn) {				//For each film
+
+					if (!filmsOtherAL.contains(s))	//If one film does not coincide, they do not match
+						match = false;
+				}
+
+				if (match) {							//If the films match, add both people of the list
+
+					filmList.get(i).add(pIn);
+					filmList.get(i).add(pTheOther);		
+					i++;								//Keep track of the main array index
+				}
+
+				match = true;		//Reset the value
 			}
+
+		}
 	}
 
 }
