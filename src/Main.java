@@ -34,6 +34,7 @@ public class Main {
 			System.out.println("6. Who was born at that place?\n");
 			System.out.println("7. Who was born between those two dates?\n");
 			System.out.println("8. Who was born in town that is the same of hometown?\n");
+			System.out.println("9. Sort people by movie collections\n");
 			System.out.println("4. End and log out");
 			System.out.println("______________________________________________\n");
 			System.out.println("Your election:");
@@ -65,6 +66,11 @@ public class Main {
 			case 8:
 				
 				WhoWasBornSameHomeTown();
+				break;
+			
+			case 9:
+				
+				sortForMovies();
 				break;
 
 			case 3:
@@ -98,6 +104,38 @@ public class Main {
 		sc.close();
 	}
 	
+	
+	public static void sortForMovies() {
+
+		for (People p1 : net.peopleList) {
+			net.matchFilms(p1);
+		}
+
+		for (People p1 : net.peopleList) {
+
+			for (int i = 0; i < net.filmList.size(); i++) {
+
+				if (Collections.frequency(net.filmList.get(i), p1) > 1) {
+
+					for (int j = 0; j < net.filmList.get(i).size(); j++) {
+
+						if (p1.equals(net.filmList.get(i).get(j))) {
+
+							net.filmList.remove(i);
+						}
+					}
+				}
+			}
+		}
+
+		for (ArrayList<People> L1 : net.filmList) {
+			System.out.println(L1.get(0).getFilms());
+			System.out.println(L1.toString());
+
+		}
+
+	}
+	
 	private static void WhoWasBornSameHomeTown() {
 		
 		String path = "files/residential.txt";
@@ -108,11 +146,8 @@ public class Main {
 			while(scan.hasNext()) {
 				
 				String identifier = scan.nextLine();
-				
-				People p = new People();
-				p.setId(identifier);
-				
-				net.homeTownMatchBirthPlacePeople(p.getHome());
+								
+				net.homeTownMatchBirthPlacePeople(identifier);
 			}
 		} catch (FileNotFoundException e) {
 			
