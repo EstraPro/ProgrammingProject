@@ -33,7 +33,7 @@ public class Main {
 			System.out.println("5. Who are his/her friends?\n");
 			System.out.println("6. Who was born at that place?\n");
 			System.out.println("7. Who was born between those two dates?\n");
-			System.out.println("8. Who ");
+			System.out.println("8. Who was born in town that is the same of hometown?");
 			System.out.println("4. End and log out");
 			System.out.println("______________________________________________\n");
 			System.out.println("Your election:");
@@ -60,6 +60,11 @@ public class Main {
 
 			case 7:
 				WhoWasBornThisYears();
+				break;
+
+			case 8:
+				
+				WhoWasBornSameHomeTown();
 				break;
 
 			case 3:
@@ -91,6 +96,26 @@ public class Main {
 		}
 
 		sc.close();
+	}
+	
+	private static void WhoWasBornSameHomeTown() {
+		
+		String path = "files/residential.txt";
+		
+		try {
+			Scanner scan = new Scanner(new FileReader(path));
+			
+			while(scan.hasNext()) {
+				
+				String identifier = scan.nextLine();
+				
+				net.homeTownMatchBirthPlacePeople(identifier);
+			}
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 
 	/**
