@@ -109,10 +109,14 @@ public class Main {
 				
 				String identifier = scan.nextLine();
 				
-				net.homeTownMatchBirthPlacePeople(identifier);
+				People p = new People();
+				p.setId(identifier);
+				
+				net.homeTownMatchBirthPlacePeople(p.getHome());
 			}
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
+			
+			System.out.println("Error in file reading!");
 			e.printStackTrace();
 		}
 		
