@@ -33,7 +33,7 @@ public class Main {
 			System.out.println("5. Who are his/her friends?\n");
 			System.out.println("6. Who was born at that place?\n");
 			System.out.println("7. Who was born between those two dates?\n");
-			System.out.println("8. Who was born in town that is the same of hometown?");
+			System.out.println("8. Who was born in town that is the same of hometown?\n");
 			System.out.println("4. End and log out");
 			System.out.println("______________________________________________\n");
 			System.out.println("Your election:");
