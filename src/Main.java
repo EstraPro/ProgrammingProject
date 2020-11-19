@@ -106,32 +106,43 @@ public class Main {
 	
 	
 	public static void sortForMovies() {
-
+		
 		for (People p1 : net.peopleList) {
 			net.matchFilms(p1);
 		}
+		
+		
+		
 
 		for (People p1 : net.peopleList) {
-
+			int kont=0;
+			
 			for (int i = 0; i < net.filmList.size(); i++) {
-
-				if (Collections.frequency(net.filmList.get(i), p1) > 1) {
-
-					for (int j = 0; j < net.filmList.get(i).size(); j++) {
-
-						if (p1.equals(net.filmList.get(i).get(j))) {
-
-							net.filmList.remove(i);
-						}
+				
+				if(net.filmList.get(i).contains(p1)) {
+				
+					kont++;
+					
+					if(kont>1) {
+						net.filmList.get(i).remove(net.filmList.get(i).indexOf(p1));
 					}
 				}
 			}
+			
 		}
+				
+				
+				
+
+						
+			
 
 		for (ArrayList<People> L1 : net.filmList) {
+			if(L1.size()!=0) {
+			System.out.println("");
 			System.out.println(L1.get(0).getFilms());
 			System.out.println(L1.toString());
-
+			}
 		}
 
 	}
