@@ -181,19 +181,29 @@ public class Network {
 			}
 		}
 	}
+	/**
+	 * Method that print people if home town of identifier given is the same of people birthplace 
+	 * @param identifier
+	 */
+	public void homeTownMatchBirthPlacePeople(String identifier) {
 
-	public void homeTownMatchBirthPlacePeople(String homeTown) {
-
-		for (People p : peopleList) {
-
-			if (p.getBirthPlace().equals(homeTown)) {
-
-				System.out.println(p.toString());
-
+		int i = 0;
+		boolean found = false;
+		while(i < peopleList.size() && !found) {
+			
+			if (peopleList.get(i).getId().equals(identifier)) {
+				
+				found = true;
+				for (People p2 : peopleList) {
+					
+					if(p2.getBirthPlace().equals(peopleList.get(i).getHome()) && peopleList.get(i).getId() != p2.getId()) {
+						System.out.println(p2.toString());
+					}
+				}
 			}
-
+		i++;
+			
 		}
-
 	}
 
 	/**
@@ -219,17 +229,14 @@ public class Network {
 				for (String s : filmsOther) {	//Convert from String[] to ArrayList
 					filmsOtherAL.add(s);		//to be able to use .contains()
 				}
-
+				
 				for (String s : filmsIn) {				//For each film
 
 					if (!filmsOtherAL.contains(s))	//If one film does not coincide, they do not match
 						match = false;
 				}
-
 				if (match) {							//If the films match, add both people of the list
-					
-					filmList.add(new ArrayList<People>());
-					
+
 					filmList.get(i).add(pIn);
 					filmList.get(i).add(pTheOther);		
 					i++;								//Keep track of the main array index
