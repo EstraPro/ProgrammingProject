@@ -237,6 +237,7 @@ public class Network {
 				}
 				if (match) {							//If the films match, add both people of the list
 
+					filmList.add(new ArrayList<People>());
 					filmList.get(i).add(pIn);
 					filmList.get(i).add(pTheOther);		
 					i++;								//Keep track of the main array index
