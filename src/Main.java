@@ -382,7 +382,7 @@ public class Main {
 
 			System.out.println("___________________________");
 			System.out.println("\nHave you finished?");
-			System.out.println("\nyes[1]		No[2]");
+			System.out.println("\nYes[1]		No[2]");
 			sel2 = sc.nextInt(); // save selection
 			if (sel2 == 1) {
 				done = true;
@@ -391,7 +391,7 @@ public class Main {
 
 		System.out.println("___________________________");
 		System.out
-				.println("\nnow we are going to create the adjacency matrix of the graph that represents the network");
+				.println("\nNow we are going to create the adjacency matrix of the graph that represents the network");
 		net.AdjM = net.ListToMatrix(net.peopleList.size());
 		System.out.println("\nCreating the matrix:\n...\n...\n...\nAlmost done... \n...\n...\n...\nDone!\n");
 
@@ -400,7 +400,7 @@ public class Main {
 		System.out.println("\nCreating the matrix:\n...\n...\n...\nAlmost done... \n...\n...\n...\nDone!\n");
 
 		System.out.println("\nDo you want to see the adjancency matrix and the graph?");
-		System.out.println("\nyes[1]		No[2]");
+		System.out.println("\nYes[1]		No[2]");
 		sel3 = sc.nextInt(); // save selection
 		if (sel3 == 1) {
 
