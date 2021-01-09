@@ -2,7 +2,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 /**
  * Class that represents a network
@@ -139,7 +138,7 @@ public class Network {
 	 * @param sur
 	 */
 	public void printRelationsFromSurname(String sur) {
-		
+
 		String id1, id2;
 		String sur1, sur2;
 
@@ -184,145 +183,146 @@ public class Network {
 			}
 		}
 	}
+
 	/**
-	 * Method that print people if home town of identifier given is the same of people birthplace 
+	 * Method that print people if home town of identifier given is the same of
+	 * people birthplace
+	 * 
 	 * @param identifier
 	 */
 	public void homeTownMatchBirthPlacePeople(String identifier) {
 
 		int i = 0;
 		boolean found = false;
-		while(i < peopleList.size() && !found) {
-			
+		while (i < peopleList.size() && !found) {
+
 			if (peopleList.get(i).getId().equals(identifier)) {
-				
+
 				found = true;
 				for (People p2 : peopleList) {
-					
-					if(p2.getBirthPlace().equals(peopleList.get(i).getHome()) && peopleList.get(i).getId() != p2.getId()) {
+
+					if (p2.getBirthPlace().equals(peopleList.get(i).getHome())
+							&& peopleList.get(i).getId() != p2.getId()) {
 						System.out.println(p2.toString());
 					}
 				}
 			}
-		i++;
-			
+			i++;
+
 		}
 	}
 
 	/**
 	 * Method that groups people by the films they like
+	 * 
 	 * @param pIn
 	 */
 	public void matchFilms(People pIn) {
 
 		boolean match = true;
-		String films = pIn.getFilms(); 	//String with all favorite films
+		String films = pIn.getFilms(); // String with all favorite films
 
-		String[] filmsIn = films.split(";");	//String array of the films
+		String[] filmsIn = films.split(";"); // String array of the films
 
-		for (People pTheOther : peopleList) {	//For each other person
+		for (People pTheOther : peopleList) { // For each other person
 
-			if (!pTheOther.getId().equals(pIn.getId())) {	//IFF they are not the same person
+			if (!pTheOther.getId().equals(pIn.getId())) { // IFF they are not the same person
 
-				String films2 = pTheOther.getFilms();	//String with the films of the other
+				String films2 = pTheOther.getFilms(); // String with the films of the other
 
-				String[] filmsOther = films2.split(";");	//String array of the films
-				ArrayList<String> filmsOtherAL = new ArrayList<String>();	//Auxiliary ArrayList
+				String[] filmsOther = films2.split(";"); // String array of the films
+				ArrayList<String> filmsOtherAL = new ArrayList<String>(); // Auxiliary ArrayList
 
-				for (String s : filmsOther) {	//Convert from String[] to ArrayList
-					filmsOtherAL.add(s);		//to be able to use .contains()
+				for (String s : filmsOther) { // Convert from String[] to ArrayList
+					filmsOtherAL.add(s); // to be able to use .contains()
 				}
-				
-				for (String s : filmsIn) {				//For each film
 
-					if (!filmsOtherAL.contains(s))	//If one film does not coincide, they do not match
+				for (String s : filmsIn) { // For each film
+
+					if (!filmsOtherAL.contains(s)) // If one film does not coincide, they do not match
 						match = false;
 				}
-				if (match) {							//If the films match, add both people of the list
+				if (match) { // If the films match, add both people of the list
 
 					filmList.add(new ArrayList<People>());
 					filmList.get(i).add(pIn);
-					filmList.get(i).add(pTheOther);		
-					i++;								//Keep track of the main array index
+					filmList.get(i).add(pTheOther);
+					i++; // Keep track of the main array index
 				}
 
-				match = true;		//Reset the value
+				match = true; // Reset the value
 			}
 
 		}
 	}
-	
+
 	/*
-	 * Method that retrieves the adyancency matrix that represent the graph of the relationList
-	 * that has already been uploaded to the network. 
+	 * Method that retrieves the adyancency matrix that represent the graph of the
+	 * relationList that has already been uploaded to the network.
 	 */
 	public int[][] ListToMatrix(int MAX) {
-	
+
 		int[][] M1 = new int[MAX][MAX];
-		
+
 		System.out.println(MAX);
-		
+
 		for (int x = 0; x < M1.length; x++) {
-			
+
 			for (int y = 0; y < M1.length; y++) {
-				M1[x][y]=0;
+				M1[x][y] = 0;
 			}
-		
+
 		}
 
-			for (int i = 0; i < peopleList.size(); i++) {
-				
-				String ID1 = peopleList.get(i).getId();
-								
-					for(int j=0; j<peopleList.size(); j++) {
-						
-						String ID2 = peopleList.get(j).getId();
-						
-						for(int z=0; z<relationList.size();z++) {
-							
-							String Total = ID1 + "," + ID2;
-							
-								if(Total.equals(relationList.get(z))) {
+		for (int i = 0; i < peopleList.size(); i++) {
 
-									M1[i][j] = 1;
-								
-								}
-							
-							}
+			String ID1 = peopleList.get(i).getId();
+
+			for (int j = 0; j < peopleList.size(); j++) {
+
+				String ID2 = peopleList.get(j).getId();
+
+				for (int z = 0; z < relationList.size(); z++) {
+
+					String Total = ID1 + "," + ID2;
+
+					if (Total.equals(relationList.get(z))) {
+
+						M1[i][j] = 1;
+
 					}
-				
+
+				}
 			}
-			    		
-			return M1;
+
+		}
+
+		return M1;
 	}
-	
+
 	/**
 	 * Create a graph from a matrix
+	 * 
 	 * @param M1
 	 */
-	public void matrixToGraph(int[][] M1){
-		People a;
-		People b;
+	public void matrixToGraph(int[][] M1) {
+
 		G1 = new Graph(peopleList);
-		
-		
-		
+
 		for (int i = 0; i < M1.length; i++) {
-			
-			for (int j = 0; j < M1.length ; j++) {
-			
-				if (M1[i][j]==1) {
-					
+
+			for (int j = 0; j < M1.length; j++) {
+
+				if (M1[i][j] == 1) {
+
 					G1.addEdge(peopleList.get(i), peopleList.get(j));
-					
+
 				}
-				
-				
+
 			}
-			
+
 		}
-		
-		
+
 	}
 
 }
