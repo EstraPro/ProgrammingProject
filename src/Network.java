@@ -2,6 +2,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * Class that represents a network
@@ -13,6 +14,8 @@ public class Network {
 	public ArrayList<People> peopleList = new ArrayList<>(); // ArrayList for people
 	public ArrayList<String> relationList = new ArrayList<>(); // ArrayList for relationships
 	public ArrayList<ArrayList<People>> filmList = new ArrayList<>();
+	public Graph G1;
+	public int[][] AdjM;
 	int i = 0;
 
 	/**
@@ -247,6 +250,79 @@ public class Network {
 			}
 
 		}
+	}
+	
+	/*
+	 * Method that retrieves the adyancency matrix that represent the graph of the relationList
+	 * that has already been uploaded to the network. 
+	 */
+	public int[][] ListToMatrix(int MAX) {
+	
+		int[][] M1 = new int[MAX][MAX];
+		
+		System.out.println(MAX);
+		
+		for (int x = 0; x < M1.length; x++) {
+			
+			for (int y = 0; y < M1.length; y++) {
+				M1[x][y]=0;
+			}
+		
+		}
+
+			for (int i = 0; i < peopleList.size(); i++) {
+				
+				String ID1 = peopleList.get(i).getId();
+								
+					for(int j=0; j<peopleList.size(); j++) {
+						
+						String ID2 = peopleList.get(j).getId();
+						
+						for(int z=0; z<relationList.size();z++) {
+							
+							String Total = ID1 + "," + ID2;
+							
+								if(Total.equals(relationList.get(z))) {
+
+									M1[i][j] = 1;
+								
+								}
+							
+							}
+					}
+				
+			}
+			    		
+			return M1;
+	}
+	
+	/**
+	 * Create a graph from a matrix
+	 * @param M1
+	 */
+	public void matrixToGraph(int[][] M1){
+		People a;
+		People b;
+		G1 = new Graph(peopleList);
+		
+		
+		
+		for (int i = 0; i < M1.length; i++) {
+			
+			for (int j = 0; j < M1.length ; j++) {
+			
+				if (M1[i][j]==1) {
+					
+					G1.addEdge(peopleList.get(i), peopleList.get(j));
+					
+				}
+				
+				
+			}
+			
+		}
+		
+		
 	}
 
 }
