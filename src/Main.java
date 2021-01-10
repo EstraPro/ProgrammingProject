@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Scanner;
 
-//a
 
 /**
  * Main class that executes the program
@@ -39,7 +38,7 @@ public class Main {
 			System.out.println("9. Sort people by movie collections\n");
 			System.out.println("10. Create the Adjacency matrix and graph that represent the friendList on the network\n");
 			System.out.println("11. Find the Longest path btween to Persons\n");
-			System.out.println("12. Find the Longest path btween to Persons\n");
+			System.out.println("12. Find the Shortest path btween to Persons\n");
 			System.out.println("4. End and log out");
 			System.out.println("______________________________________________\n");
 			System.out.println("Your election:");
