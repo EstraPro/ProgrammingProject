@@ -12,7 +12,8 @@ public class Network {
 
 	public ArrayList<People> peopleList = new ArrayList<>(); // ArrayList for people
 	public ArrayList<String> relationList = new ArrayList<>(); // ArrayList for relationships
-	public ArrayList<ArrayList<People>> filmList = new ArrayList<>(); //ArrayList of arraylist that contains people that like the same sort of movies
+	public ArrayList<ArrayList<People>> filmList = new ArrayList<>(); // ArrayList of arraylist that contains people
+																		// that like the same sort of movies
 	public Graph G1;
 	public int[][] AdjM;
 	int i = 0;
@@ -138,7 +139,7 @@ public class Network {
 	 * @param sur
 	 */
 	public void printRelationsFromSurname(String sur) {
-		
+
 		String id1, id2;
 		String sur1, sur2;
 
@@ -183,269 +184,258 @@ public class Network {
 			}
 		}
 	}
+
 	/**
-	 * Method that print people if home town of identifier given is the same of people birthplace 
+	 * Method that print people if home town of identifier given is the same of
+	 * people birthplace
+	 * 
 	 * @param identifier
 	 */
 	public void homeTownMatchBirthPlacePeople(String identifier) {
 
 		int i = 0;
 		boolean found = false;
-		while(i < peopleList.size() && !found) {
-			
+		while (i < peopleList.size() && !found) {
+
 			if (peopleList.get(i).getId().equals(identifier)) {
-				
+
 				found = true;
 				for (People p2 : peopleList) {
-					
-					if(p2.getBirthPlace().equals(peopleList.get(i).getHome()) && peopleList.get(i).getId() != p2.getId()) {
+
+					if (p2.getBirthPlace().equals(peopleList.get(i).getHome())
+							&& peopleList.get(i).getId() != p2.getId()) {
 						System.out.println(p2.toString());
 					}
 				}
 			}
-		i++;
-			
+			i++;
+
 		}
 	}
 
 	/**
 	 * Method that groups people by the films they like
+	 * 
 	 * @param pIn
 	 */
 	public void matchFilms(People pIn) {
 
 		boolean match = true;
-		String films = pIn.getFilms(); 	//String with all favorite films
+		String films = pIn.getFilms(); // String with all favorite films
 
-		String[] filmsIn = films.split(";");	//String array of the films
+		String[] filmsIn = films.split(";"); // String array of the films
 
-		for (People pTheOther : peopleList) {	//For each other person
+		for (People pTheOther : peopleList) { // For each other person
 
-			if (!pTheOther.getId().equals(pIn.getId())) {	//IFF they are not the same person
+			if (!pTheOther.getId().equals(pIn.getId())) { // IFF they are not the same person
 
-				String films2 = pTheOther.getFilms();	//String with the films of the other
+				String films2 = pTheOther.getFilms(); // String with the films of the other
 
-				String[] filmsOther = films2.split(";");	//String array of the films
-				ArrayList<String> filmsOtherAL = new ArrayList<String>();	//Auxiliary ArrayList
+				String[] filmsOther = films2.split(";"); // String array of the films
+				ArrayList<String> filmsOtherAL = new ArrayList<String>(); // Auxiliary ArrayList
 
-				for (String s : filmsOther) {	//Convert from String[] to ArrayList
-					filmsOtherAL.add(s);		//to be able to use .contains()
+				for (String s : filmsOther) { // Convert from String[] to ArrayList
+					filmsOtherAL.add(s); // to be able to use .contains()
 				}
-				
-				for (String s : filmsIn) {				//For each film
 
-					if (!filmsOtherAL.contains(s))	//If one film does not coincide, they do not match
+				for (String s : filmsIn) { // For each film
+
+					if (!filmsOtherAL.contains(s)) // If one film does not coincide, they do not match
 						match = false;
 				}
-				if (match) {							//If the films match, add both people of the list
+				if (match) { // If the films match, add both people of the list
 
 					filmList.add(new ArrayList<People>());
 					filmList.get(i).add(pIn);
-					filmList.get(i).add(pTheOther);		
-					i++;								//Keep track of the main array index
+					filmList.get(i).add(pTheOther);
+					i++; // Keep track of the main array index
 				}
 
-				match = true;		//Reset the value
+				match = true; // Reset the value
 			}
 
 		}
 	}
-	
+
 	/*
-	 * Method that retrieves the adyancency matrix that represent the graph of the relationList
-	 * that has already been uploaded to the network. 
+	 * Method that retrieves the adyancency matrix that represent the graph of the
+	 * relationList that has already been uploaded to the network.
 	 */
 	public int[][] ListToMatrix(int MAX) {
-	
+
 		int[][] M1 = new int[MAX][MAX];
-		
+
 		System.out.println(MAX);
-		
+
 		for (int x = 0; x < M1.length; x++) {
-			
+
 			for (int y = 0; y < M1.length; y++) {
-				
-				M1[x][y]=0;
-			
+
+				M1[x][y] = 0;
+
 			}
-		
+
 		}
 
-			for (int i = 0; i < peopleList.size(); i++) {
-				
-				String ID1 = peopleList.get(i).getId();
-								
-					for(int j=0; j<peopleList.size(); j++) {
-						
-						String ID2 = peopleList.get(j).getId();
-						
-						for(int z=0; z<relationList.size();z++) {
-							
-							String Total = ID1 + "," + ID2;
-							
-								if(Total.equals(relationList.get(z))) {
+		for (int i = 0; i < peopleList.size(); i++) {
 
-									M1[i][j] = 1;
-								
-								}
-							
-							}
+			String ID1 = peopleList.get(i).getId();
+
+			for (int j = 0; j < peopleList.size(); j++) {
+
+				String ID2 = peopleList.get(j).getId();
+
+				for (int z = 0; z < relationList.size(); z++) {
+
+					String Total = ID1 + "," + ID2;
+
+					if (Total.equals(relationList.get(z))) {
+
+						M1[i][j] = 1;
+
 					}
-				
+
+				}
 			}
-			    		
-			return M1;
+
+		}
+
+		return M1;
 	}
-	
+
 	/**
 	 * Create a graph from a matrix
+	 * 
 	 * @param M1
 	 */
-	public void matrixToGraph(int[][] M1){
+	public void matrixToGraph(int[][] M1) {
 
 		G1 = new Graph(peopleList);
-		
-		
-		
+
 		for (int i = 0; i < M1.length; i++) {
-			
-			for (int j = 0; j < M1.length ; j++) {
-			
-				if (M1[i][j]==1) {
-					
+
+			for (int j = 0; j < M1.length; j++) {
+
+				if (M1[i][j] == 1) {
+
 					G1.addEdge(peopleList.get(i), peopleList.get(j));
-					
+
 				}
-				
-				
+
 			}
-			
+
 		}
-		
-		
+
 	}
-	
+
 	public ArrayList<People> findLongestPath(Graph G, People root, People dest) {
 		/**
-		 * Here we are going to initialize all atributes we are going
-		 * to need
+		 * Here we are going to initialize all atributes we are going to need
 		 */
-		int emaitza=0;
+		int emaitza = 0;
 		ArrayList<People> ListEmaitza = new ArrayList<People>();
 		@SuppressWarnings("unused")
 		int r = G.getList().indexOf(root);
 		@SuppressWarnings("unused")
 		int d = G.getList().indexOf(dest);
-		
+
 		ArrayList<People> actualPath = new ArrayList<People>();
-		ArrayList<ArrayList<People>> L1= new ArrayList<ArrayList<People>>();
-		
-		for(@SuppressWarnings("unused") ArrayList<People> path: L1) {
-			path= new ArrayList<People>();
+		ArrayList<ArrayList<People>> L1 = new ArrayList<ArrayList<People>>();
+
+		for (@SuppressWarnings("unused")
+		ArrayList<People> path : L1) {
+			path = new ArrayList<People>();
 		}
-		
+
 		/**
-		 * Now we call to de DPS to see if there is any possible path to
-		 * our destination node
+		 * Now we call to de DFS to see if there is any possible path to our destination
+		 * node
 		 */
 		DepthFirstSearch D1 = new DepthFirstSearch(G, root);
-		if(!D1.hasPathTo(G, dest)) {
-		return null;
+		if (!D1.hasPathTo(G, dest)) {
+			return null;
 		}
 		/**
 		 * And now, we start the backtracking
 		 */
 		else {
-			actualPath.add(root); //we add the root to our actual path
-			
-		/**
-		 * for all adyacents to the root...
-		 */
-		for(People p1: G.adjacentsToV(root)) {
-			//marked[G.getList().indexOf(p1)] = true;//we mark the node as visited
-			
-				if(!actualPath.contains(p1)) {
+			actualPath.add(root); // we add the root to our actual path
+
+			/**
+			 * for all adyacents to the root...
+			 */
+			for (People p1 : G.adjacentsToV(root)) {
 				
-					actualPath.add(p1); //we add the node to our actual path
-					//and we call the recursive method
+				System.out.println("** " + p1.getId() + " **"); //Zein dan aztertzen ai dan adyazentea
+
+				if (!actualPath.contains(p1)) {
+
+					actualPath.add(p1); // we add the node to our actual path
+					// and we call the recursive method
 					L1 = longestPath(G, p1, dest, actualPath, L1);
+					actualPath = new ArrayList<People>();
+					actualPath.add(root);
+				}
+				actualPath.remove(p1);// we remove the used node from our actual path
+			}
+
+			for (ArrayList<People> L : L1) {
+				int a = L.size();
+
+				if (a > emaitza) {
+					emaitza = a;
+					ListEmaitza = L;
 				}
 				
-			actualPath.remove(p1);//we remove the used node from our actual path
+				System.out.println(L + "||" + L.size()); //Ikusteko bide guztik, ta bakoitzan luzera
 			}
-		
-		for(ArrayList<People> L: L1) {
-			int a = L.size();
-			
-			if(a>emaitza) {
-				emaitza=a;
-				ListEmaitza=L;
-			}
-		}
-		
-		return ListEmaitza;
+
+			return ListEmaitza;
 		}
 	}
-	
-	
-	private ArrayList<ArrayList<People>> longestPath(Graph G, People root, People dest, 
-				ArrayList<People> ActualPath, ArrayList<ArrayList<People>> l1) {
-		
-		//marked[G.getList().indexOf(root)]=true;
-		
+
+	private ArrayList<ArrayList<People>> longestPath(Graph G, People root, People dest, ArrayList<People> ActualPath,
+			ArrayList<ArrayList<People>> l1) {
+
 		ArrayList<People> result = new ArrayList<>();
-		
+
 		if (root.equals(dest)) {
-			ActualPath.add(root);
+			System.out.println("******************irisi neok!!*******************");
+			//ActualPath.add(root);
 			result = ActualPath;
 			l1.add(result);
-		
-			
+
 		}
-		
 		else {
 			
-			for(People p1: G.adjacentsToV(root)) {
+			//Hau sin mas pemtsona bakoitzan adyazentek ikusteko baliodo, ez dakit ondo daren.
+			
+/*///////////////////////////////
+			System.out.println("//////////////////////////////");
+			for (People p : G.adjacentsToV(root)) {
+				System.out.println(p.getId());
+			}
+			System.out.println("//////////////////////////////");
+*///////////////////////////////////////			
+			
+			for (People p1 : G.adjacentsToV(root)) {
 				
-				if(!ActualPath.contains(p1)) {
+				if (!ActualPath.contains(p1)) {
 					@SuppressWarnings("unused")
 					int p = G.getList().indexOf(p1);
-					
+
 					ActualPath.add(p1);
-					longestPath(G, p1, dest, ActualPath, l1);	
+					l1 = longestPath(G, p1, dest, ActualPath, l1);
 					ActualPath.remove(p1);
-					
+
 				}
-				
-				
+
 			}
-			
-			
+
 		}
-		
+
 		return l1;
-		
+
 	}
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
