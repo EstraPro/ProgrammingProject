@@ -1,9 +1,9 @@
-import java.util.ArrayList;
+import java.util.Stack;
 
 public class BreathFirstPaths {
 	private static final int INFINITY = Integer.MAX_VALUE;
 	private boolean[] marked;
-	private People[] edgeTo;
+	private int[] edgeTo;
 	private int[] distTo;
 	
 	
@@ -18,18 +18,26 @@ public class BreathFirstPaths {
 			distTo[v]= INFINITY;
 		}
 		
-		distTo[G.getList().indexOf(s)] = 0;
-		marked[G.getList().indexOf(s)] = true;
-		q.enqueue(s);
+		int S = G.getList().indexOf(s);
 		
+		distTo[S] = 0;
+		marked[S] = true;
+		q.enqueue(s);
 
 		while(!q.isEmpty()) {
+			
 			People v = q.dequeue();
+			int V = G.getList().indexOf(v);
+			
 			for(People w: G.adjacentsToV(v)) {
-				if(!marked[G.getList().indexOf(w)]) {
-					edgeTo[G.getList().indexOf(w)]=v;
-					distTo[G.getList().indexOf(w)]=distTo[G.getList().indexOf(v)] + 1;
-					marked[distTo[G.getList().indexOf(w)]]= true;
+				
+				int W = G.getList().indexOf(w);
+				
+				if(!marked[W]) {
+					
+					edgeTo[W]=V;
+					distTo[W]=distTo[V] + 1;
+					marked[W]= true;
 					q.enqueue(w);
 				}
 			}
@@ -45,10 +53,9 @@ public class BreathFirstPaths {
 	public BreathFirstPaths(Graph G, People s) throws InterruptedException {
 		marked = new boolean[G.V()];
 		distTo = new int[G.V()];
-		edgeTo = new People[G.V()];
+		edgeTo = new int[G.V()];
 	
-		//make the BFS
-		bfs(G, s);
+		bfs(G, s);	//make the BFS
 		}
 	
 //=================================================================================
@@ -61,24 +68,39 @@ public class BreathFirstPaths {
 	
 	//is there a path between s and v?
 	public boolean hasPathTo(Graph G, People v) {
-		return marked[G.getList().indexOf(v)];
+		
+		int V = G.getList().indexOf(v);
+		return marked[V];
 	}
 	
 	//length of the sortest path btween s and v
 	public int distTo(Graph G, People v) {
-		return distTo[G.getList().indexOf(v)];
+		
+		int V = G.getList().indexOf(v);
+		return distTo[V];
 	}
 
 	//Shortest path to a person
-	public ArrayList<People> pathTo(Graph G, People v){
+	public Stack<People> pathTo(Graph G, People v){
+		
 		if(!hasPathTo(G, v)) return null;
-		ArrayList<People> path = new ArrayList<People>();
-		int x;
-		for (x = G.getList().indexOf(v) ; distTo[x] !=0; x=G.getList().indexOf(edgeTo[x])) {
-			path.add(G.getList().get(x));
+		
+		Stack<Integer> path = new Stack<Integer>();
+		int x, V = G.getList().indexOf(v);
+		
+		for (x = V ; distTo[x] != 0; x = edgeTo[x]) {
+			
+			path.push(x);
 		}
-		path.add(G.getList().get(x));
-		return path;
+		
+		path.push(x);
+		Stack<People> Ppath = new Stack<People>();
+		
+		for (Integer i : path) {
+			
+			People pb = G.getList().get(i);
+			Ppath.push(pb);
+		}
+		return Ppath;
 	}
-	
 }

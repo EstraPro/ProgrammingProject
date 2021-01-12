@@ -3,7 +3,7 @@ import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Scanner;
-
+import java.util.Stack;
 
 /**
  * Main class that executes the program
@@ -36,7 +36,8 @@ public class Main {
 			System.out.println("7. Who was born between those two dates?\n");
 			System.out.println("8. Who was born in town that is the same of hometown?\n");
 			System.out.println("9. Sort people by movie collections\n");
-			System.out.println("10. Create the Adjacency matrix and graph that represent the friendList on the network\n");
+			System.out.println(
+					"10. Create the Adjacency matrix and graph that represent the friendList on the network\n");
 			System.out.println("11. Find the Longest path btween to Persons\n");
 			System.out.println("12. Find the Shortest path btween to Persons\n");
 			System.out.println("4. End and log out");
@@ -68,22 +69,22 @@ public class Main {
 				break;
 
 			case 8:
-				
+
 				WhoWasBornSameHomeTown();
 				break;
-			
+
 			case 9:
 				sortForMovies();
 				break;
-				
+
 			case 10:
 				createAdjacencyMatrixandGraph();
 				break;
-			
+
 			case 11:
 				longestPath();
 				break;
-				
+
 			case 12:
 				shortestPath();
 				break;
@@ -100,7 +101,6 @@ public class Main {
 				exit = true; // Exit the program
 				System.out.println("----------You have loged out----------");
 				break;
-
 			}
 
 			if (!exit) { // Only if exit is not selected
@@ -115,11 +115,9 @@ public class Main {
 				sc.nextLine();
 			}
 		}
-
 		sc.close();
 	}
-	
-	
+
 	public static void sortForMovies() {
 
 		for (People p1 : net.peopleList) {
@@ -136,7 +134,8 @@ public class Main {
 
 					kont++;
 
-					if (kont > 1)net.filmList.get(i).remove(net.filmList.get(i).indexOf(p1));
+					if (kont > 1)
+						net.filmList.get(i).remove(net.filmList.get(i).indexOf(p1));
 				}
 			}
 		}
@@ -148,28 +147,26 @@ public class Main {
 				System.out.println(L1.toString());
 			}
 		}
-
 	}
-	
+
 	private static void WhoWasBornSameHomeTown() {
-		
+
 		String path = "files/residential.txt";
-		
+
 		try {
 			Scanner scan = new Scanner(new FileReader(path));
-			
-			while(scan.hasNext()) {
-				
+
+			while (scan.hasNext()) {
+
 				String identifier = scan.nextLine();
-								
 				net.homeTownMatchBirthPlacePeople(identifier);
 			}
 		} catch (FileNotFoundException e) {
-			
+
 			System.out.println("Error in file reading!");
 			e.printStackTrace();
 		}
-		
+
 	}
 
 	/**
@@ -190,20 +187,20 @@ public class Main {
 		y2 = sc.nextLine(); // To year y2
 
 		System.out.println("\n---The people born between these dates---\n");
-		
+
 		for (People p : net.printPeopleFromDates(y1, y2)) {
-			
+
 			System.out.println(p.toString());
 			al.add(p);
 		}
 
 		System.out.println("\n---Same people but sorted by birthplace, surname and name---\n");
-		Collections.sort(al, new PeopleChainedComparator(new BirthPlaceComparator(), new SurnameComparator(), new NameComparator()));
+		Collections.sort(al,
+				new PeopleChainedComparator(new BirthPlaceComparator(), new SurnameComparator(), new NameComparator()));
 
 		for (People p1 : al) {
 
 			System.out.println(p1.toString());
-
 		}
 	}
 
@@ -216,9 +213,7 @@ public class Main {
 
 		System.out.print("\nEnter the name of the place: \n");
 		String place = sc.nextLine(); // Read user input
-
 		net.printPeopleFromBirthplace(place); // Print people
-
 	}
 
 	/**
@@ -230,9 +225,6 @@ public class Main {
 
 		System.out.print("\nEnter the SURNAME of the person you want to stalk: \n");
 		String lastName = sc.nextLine();
-
-		// /media/917790/E431-CEB4/UNI/ProgrammingProject/files/peopleG612051.txt
-
 		System.out.println("The given surname is: " + lastName);
 		System.out.println("\nHis/Her friends are:\n");
 
@@ -266,7 +258,6 @@ public class Main {
 			}
 
 			System.out.println("\nUploading files: \n...\n...\n...\nDone!\n");
-
 			fileScan.close();
 
 		} catch (Exception e) {
@@ -284,7 +275,7 @@ public class Main {
 		String fileName = sc.nextLine(); // Directory of the file
 
 		try {
-			
+
 			Scanner fileScan = new Scanner(new FileReader(fileName));
 			fileScan.nextLine(); // Ignore first line
 
@@ -293,14 +284,12 @@ public class Main {
 				String r = fileScan.nextLine(); // Scan each relationship
 				net.addRelation(r); // Add the relationship to the network
 			}
-
 			System.out.println("\nUploading files: \n...\n...\n...\nDone!\n");
 
 		} catch (Exception e) {
 			System.out.println("Error in file reading!");
 			System.out.println(e.getMessage());
 		}
-		
 	}
 
 	/**
@@ -319,7 +308,6 @@ public class Main {
 			/// users/917790/git/ProgrammingProject/ProgrammingProject/files/peopleG612051.txt
 			System.out.print("\nEnter the directory of the file where you want to write: \n");
 			String choice = sc.nextLine();
-
 			System.out.println("---------------------------------");
 			net.printNetwork(choice);
 			System.out.println("\nDone\n");
@@ -336,72 +324,134 @@ public class Main {
 		}
 	}
 
-	
 	public static void longestPath() {
-		
-		System.out.println("person 1\n");
+
+		System.out.println("From (person 1):");
 		String sel = sc.nextLine(); // save selection
-		System.out.println("person 2:");
+		System.out.println("To (person 2):");
 		String sel2 = sc.nextLine(); // save selection
-		
-		People M=new People();
-		People I= new People();
-		
-		for(People p1: net.peopleList) {
-			if(sel.equals(p1.getId())) {
-				M=p1;
+
+		People M = new People();
+		People I = new People();
+
+		for (People p1 : net.peopleList) {
+			if (sel.equals(p1.getId())) {
+				M = p1;
 			}
-			
-			if(sel2.equals(p1.getId())) {
-				I=p1;
+			if (sel2.equals(p1.getId())) {
+				I = p1;
 			}
 		}
-		
-		for(People p1: net.findLongestPath(net.G1, M, I)){
-			System.out.println(p1.getId() + " ");
+
+		/**
+		 * People M = net.peopleList.get(3); System.out.println("From: " + M.getId());
+		 * 
+		 * People I = net.peopleList.get(4); System.out.println("To: " + I.getId());
+		 */
+
+		Stack<People> s1 = net.findLongPath(net.G1, M, I);
+
+		System.out.println("");
+		System.out.println("This is one of the possible longest path between " + M.getId() + " and " + I.getId());
+		System.out.println("The size of the path is:" + s1.size());
+		System.out.println("and that path is:\n");
+		for (People p1 : s1) {
+
+			System.out.println(p1.getId());
 		}
-	
 	}
-	
-	public static void shortestPath(){
-		
+
+	public static void shortestPath() {
+
+		System.out.println("From (person 1):");
+		String sel = sc.nextLine(); // save selection
+		System.out.println("To (person 2)");
+		String sel2 = sc.nextLine(); // save selection
+
+		People M = new People();
+		People I = new People();
+
+		for (People p1 : net.peopleList) {
+			if (sel.equals(p1.getId())) {
+				M = p1;
+			}
+
+			if (sel2.equals(p1.getId())) {
+				I = p1;
+			}
+		}
+
+		/**
+		 * People M = net.peopleList.get(3); System.out.println(M.getId());
+		 * 
+		 * People I = net.peopleList.get(4); System.out.println(I.getId());
+		 */
+
+		try {
+			BreathFirstPaths B1 = new BreathFirstPaths(net.G1, M);
+			if (B1.hasPathTo(net.G1, I)) {
+
+				System.out.println(
+						"This is one of the possible shortest path between" + " " + M.getId() + " and " + I.getId());
+				System.out.println("");
+				System.out.println("The size of the path is:" + B1.distTo(net.G1, I));
+				System.out.println("and that path is:\n");
+				
+				Stack<People> L1 = B1.pathTo(net.G1, I);
+
+				for (People p1 : L1) {
+
+					System.out.println(p1.getId());
+				}
+			} else {
+				System.out.println("There is no path");
+
+			}
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+
 	}
-	
-	//Both people and friends paths
-	
-	//  C:\Users\Iker Sancho\git\ProgrammingProject\ProgrammingProject\files\peopleG612051.txt
-	
-	//  C:\Users\Iker Sancho\git\ProgrammingProject\ProgrammingProject\files\friendsG612051.txt
-	
-	//______________________
-	
-	//	C:\Users\Iker Sancho\git\ProgrammingProject\ProgrammingProject\files\df_people_55.txt
-		
-	//	C:\Users\Iker Sancho\git\ProgrammingProject\ProgrammingProject\files\df_friends_55L121.txt
-	
+
+	// Both people and friends paths
+
+	// C:\Users\Iker Sancho\git\ProgrammingProject\files\peopleG612051.txt
+
+	// C:\Users\Iker Sancho\git\ProgrammingProject\files\friendsG612051.txt
+
+	// ______________________
+
+	// C:\Users\Iker
+	// Sancho\git\ProgrammingProject\ProgrammingProject\files\df_people_55.txt
+
+	// C:\Users\Iker
+	// Sancho\git\ProgrammingProject\ProgrammingProject\files\df_friends_55L121.txt
+
 	
 	/**
 	 * method to create an Adjacency matrix and a graph from a Adjacency matrix
 	 */
 	public static void createAdjacencyMatrixandGraph() {
+		
 		int sel;
 		int sel2;
 		int sel3;
 
-		boolean done=false;
-		
-		
-		while(!done) {
-			System.out.println("\nFor creating the Adjacency matrix and graph that represent the the network, you must have");
+		boolean done = false;
+
+		while (!done) {
+			
+			System.out.println(
+					"\nFor creating the Adjacency matrix and graph that represent the the network, you must have");
 			System.out.println("\npreviously uploaded both friend and people list");
 			System.out.println("\nif you want to upload people list press [1]");
 			System.out.println("\nif you want to upload friends list press [2]");
 			System.out.println("\nif you want to skip [3]");
 			System.out.println("\nEnter your choice:");
-			
 			System.out.println("\nYour election:");
 			sel = sc.nextInt(); // save selection
 			sc.nextLine();
+			
 			switch (sel) { // Depending on the option selected
 
 			case 1:
@@ -411,65 +461,58 @@ public class Main {
 			case 2:
 				LoadRelationshipToNetwork();
 				break;
-			
+
 			case 3:
-				done=true;
+				done = true;
 			}
-			
+
 			System.out.println("___________________________");
 			System.out.println("\nHave you finished?");
 			System.out.println("\nyes[1]		No[2]");
 			sel2 = sc.nextInt(); // save selection
-			if(sel2==1) {
-				done=true;				
-			}
+			
+			if (sel2 == 1) done = true;
 		}
-		
-			System.out.println("___________________________");
-			System.out.println("\nnow we are going to create the adjacency matrix of the graph that represents the network");
-			net.AdjM = net.ListToMatrix(net.peopleList.size());
-			System.out.println("\nCreating the matrix:\n...\n...\n...\nAlmost done... \n...\n...\n...\nDone!\n");
-			
-			
-			System.out.println("\nand now, the graph that represents the network");
-			net.matrixToGraph(net.AdjM);
-			System.out.println("\nCreating the matrix:\n...\n...\n...\nAlmost done... \n...\n...\n...\nDone!\n");
-			
-			System.out.println("\nDo you want to see the adjancency matrix and the graph?");
-			System.out.println("\nyes[1]		No[2]");
-			sel3 = sc.nextInt(); // save selection
-			if(sel3==1) {
 
-				//print the matrix
-				for (int x = 0; x < net.AdjM.length; x++) {
-					
-					for (int y = 0; y < net.AdjM[x].length; y++) {
-						
-						System.out.print(net.AdjM[x][y] + " ");
-				
-					}
-					
-					System.out.println();
-				}				
-			
+		System.out.println("___________________________");
+		System.out.println("\nnow we are going to create the adjacency matrix of the graph that represents the network");
+		net.AdjM = net.ListToMatrix(net.peopleList.size());
+		System.out.println("\nCreating the matrix:\n...\n...\n...\nAlmost done... \n...\n...\n...\nDone!\n");
+		System.out.println("\nand now, the graph that represents the network");
+		net.matrixToGraph(net.AdjM);
+		System.out.println("\nCreating the matrix:\n...\n...\n...\nAlmost done... \n...\n...\n...\nDone!\n");
+		System.out.println("\nDo you want to see the adjancency matrix and the graph?");
+		System.out.println("\nyes[1]		No[2]");
+		sel3 = sc.nextInt(); // save selection
+		
+		if (sel3 == 1) {
+			// print the matrix
+			for (int x = 0; x < net.AdjM.length; x++) {
+
+				for (int y = 0; y < net.AdjM[x].length; y++) {
+
+					System.out.print(net.AdjM[x][y] + " ");
+				}
+				System.out.println();
+			}
+
 			System.out.println("");
 			System.out.println("==========================================");
 			System.out.println("");
-			
+
 			int a1 = net.peopleList.size();
+			
 			for (int i = 0; i < a1; i++) {
-				People v = net.peopleList.get(i);
 				
-				System.out.println(v.getId() +"'s friends");
+				People v = net.peopleList.get(i);
+				System.out.println(v.getId() + "'s friends");
+				
 				for (People p1 : net.G1.adjacentsToV(v)) {
-					
+
 					System.out.println(p1.getId());
 				}
 				System.out.println("");
-				
 			}
-			
-			}
+		}
 	}
-
-  }
+}

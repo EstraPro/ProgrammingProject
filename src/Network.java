@@ -2,6 +2,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Stack;
 
 /**
  * Class that represents a network
@@ -14,6 +15,8 @@ public class Network {
 	public ArrayList<String> relationList = new ArrayList<>(); // ArrayList for relationships
 	public ArrayList<ArrayList<People>> filmList = new ArrayList<>(); // ArrayList of arraylist that contains people
 																		// that like the same sort of movies
+	public Stack<People> aP = new Stack<People>();// Longest path
+	public ArrayList<Stack<People>> allPaths = new ArrayList<Stack<People>>();
 	public Graph G1;
 	public int[][] AdjM;
 	int i = 0;
@@ -99,7 +102,6 @@ public class Network {
 				s = p.getLastName();
 			}
 		}
-
 		return s;
 	}
 
@@ -112,7 +114,6 @@ public class Network {
 	public ArrayList<People> printPeopleFromDates(String d1, String d2) {
 
 		String year;
-		// <String> vector = new Vector<String>();
 		ArrayList<People> peopleL = new ArrayList<People>();
 
 		for (People p : peopleList) {
@@ -129,7 +130,6 @@ public class Network {
 				peopleL.add(p);
 			}
 		}
-
 		return peopleL;
 	}
 
@@ -209,7 +209,6 @@ public class Network {
 				}
 			}
 			i++;
-
 		}
 	}
 
@@ -250,10 +249,8 @@ public class Network {
 					filmList.get(i).add(pTheOther);
 					i++; // Keep track of the main array index
 				}
-
 				match = true; // Reset the value
 			}
-
 		}
 	}
 
@@ -264,17 +261,13 @@ public class Network {
 	public int[][] ListToMatrix(int MAX) {
 
 		int[][] M1 = new int[MAX][MAX];
-
 		System.out.println(MAX);
 
 		for (int x = 0; x < M1.length; x++) {
-
 			for (int y = 0; y < M1.length; y++) {
 
 				M1[x][y] = 0;
-
 			}
-
 		}
 
 		for (int i = 0; i < peopleList.size(); i++) {
@@ -292,14 +285,10 @@ public class Network {
 					if (Total.equals(relationList.get(z))) {
 
 						M1[i][j] = 1;
-
 					}
-
 				}
 			}
-
 		}
-
 		return M1;
 	}
 
@@ -319,123 +308,96 @@ public class Network {
 				if (M1[i][j] == 1) {
 
 					G1.addEdge(peopleList.get(i), peopleList.get(j));
-
 				}
-
 			}
-
 		}
-
 	}
 
-	public ArrayList<People> findLongestPath(Graph G, People root, People dest) {
-		/**
-		 * Here we are going to initialize all atributes we are going to need
-		 */
-		int emaitza = 0;
-		ArrayList<People> ListEmaitza = new ArrayList<People>();
-		@SuppressWarnings("unused")
-		int r = G.getList().indexOf(root);
-		@SuppressWarnings("unused")
-		int d = G.getList().indexOf(dest);
+	public Stack<People> findLongPath(Graph G, People r, People d) {
+		Boolean pP = false;
+		int b = 0;
+		Stack<People> StackEmaitza = new Stack<People>();
 
-		ArrayList<People> actualPath = new ArrayList<People>();
-		ArrayList<ArrayList<People>> L1 = new ArrayList<ArrayList<People>>();
-
-		for (@SuppressWarnings("unused")
-		ArrayList<People> path : L1) {
-			path = new ArrayList<People>();
+		for (@SuppressWarnings("unused") Stack<People> p1 : this.allPaths) {
+			p1 = new Stack<People>();
 		}
 
-		/**
-		 * Now we call to de DFS to see if there is any possible path to our destination
-		 * node
-		 */
-		DepthFirstSearch D1 = new DepthFirstSearch(G, root);
-		if (!D1.hasPathTo(G, dest)) {
+		try {
+
+			BreathFirstPaths B1 = new BreathFirstPaths(G, r);
+			if (B1.hasPathTo(G, d)) {
+				System.out.println("");
+				System.out.println("There is a possible path");
+				pP = true;
+			}
+
+		} catch (InterruptedException e) {
+
+			e.printStackTrace();
+		}
+
+		if (pP == true) {
+
+			aP.push(r);
+
+			for (People p1 : G.adjacentsToV(r)) {
+
+				if (!aP.contains(p1)) {
+
+					aP.push(p1);
+					iterativeLP(G, p1, d);
+				}
+			}
+			aP.pop();
+
+			// =================================================================
+
+			// System.out.println("");
+			// System.out.println("those are all posible paths and them sizes:");
+			// System.out.println("");
+
+			for (Stack<People> s2 : allPaths) {
+				// System.out.println(s2.toString());
+				// System.out.println(s2.size());
+
+				int a = s2.size();
+
+				if (a > b) {
+
+					b = a;
+					StackEmaitza = s2;
+				}
+			}
+			return StackEmaitza;
+		}
+		else {
+
+			System.out.println("No posible path found");
 			return null;
 		}
-		/**
-		 * And now, we start the backtracking
-		 */
-		else {
-			actualPath.add(root); // we add the root to our actual path
-
-			/**
-			 * for all adyacents to the root...
-			 */
-			for (People p1 : G.adjacentsToV(root)) {
-				
-				System.out.println("** " + p1.getId() + " **"); //Zein dan aztertzen ai dan adyazentea
-
-				if (!actualPath.contains(p1)) {
-
-					actualPath.add(p1); // we add the node to our actual path
-					// and we call the recursive method
-					L1 = longestPath(G, p1, dest, actualPath, L1);
-					actualPath = new ArrayList<People>();
-					actualPath.add(root);
-				}
-				actualPath.remove(p1);// we remove the used node from our actual path
-			}
-
-			for (ArrayList<People> L : L1) {
-				int a = L.size();
-
-				if (a > emaitza) {
-					emaitza = a;
-					ListEmaitza = L;
-				}
-				
-				System.out.println(L + "||" + L.size()); //Ikusteko bide guztik, ta bakoitzan luzera
-			}
-
-			return ListEmaitza;
-		}
 	}
 
-	private ArrayList<ArrayList<People>> longestPath(Graph G, People root, People dest, ArrayList<People> ActualPath,
-			ArrayList<ArrayList<People>> l1) {
+	// ==========================================================================
 
-		ArrayList<People> result = new ArrayList<>();
+	public void iterativeLP(Graph G, People t, People d) {
 
-		if (root.equals(dest)) {
-			System.out.println("******************irisi neok!!*******************");
-			//ActualPath.add(root);
-			result = ActualPath;
-			l1.add(result);
+		if (t.getId().equals(d.getId())) {
 
-		}
-		else {
-			
-			//Hau sin mas pemtsona bakoitzan adyazentek ikusteko baliodo, ez dakit ondo daren.
-			
-/*///////////////////////////////
-			System.out.println("//////////////////////////////");
-			for (People p : G.adjacentsToV(root)) {
-				System.out.println(p.getId());
-			}
-			System.out.println("//////////////////////////////");
-*///////////////////////////////////////			
-			
-			for (People p1 : G.adjacentsToV(root)) {
-				
-				if (!ActualPath.contains(p1)) {
-					@SuppressWarnings("unused")
-					int p = G.getList().indexOf(p1);
+			Stack<People> newPath = new Stack<People>();
+			newPath.addAll(aP);
+			allPaths.add(newPath);
 
-					ActualPath.add(p1);
-					l1 = longestPath(G, p1, dest, ActualPath, l1);
-					ActualPath.remove(p1);
+		} else {
 
+			for (People p2 : G.adjacentsToV(t)) {
+
+				if (!aP.contains(p2)) {
+
+					aP.push(p2);
+					iterativeLP(G, p2, d);
 				}
-
 			}
-
 		}
-
-		return l1;
-
+		aP.pop();
 	}
-
 }
