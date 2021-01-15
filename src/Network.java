@@ -15,8 +15,9 @@ public class Network {
 	public ArrayList<String> relationList = new ArrayList<>(); // ArrayList for relationships
 	public ArrayList<ArrayList<People>> filmList = new ArrayList<>(); // ArrayList of arraylist that contains people
 																		// that like the same sort of movies
-	public Stack<People> aP = new Stack<People>();// Longest path
+	public Stack<People> aP = new Stack<People>();//Longest path
 	public ArrayList<Stack<People>> allPaths = new ArrayList<Stack<People>>();
+	
 	public Graph G1;
 	public int[][] AdjM;
 	int i = 0;
@@ -85,6 +86,7 @@ public class Network {
 		relationList.add(r); // Add the relation
 	}
 
+	
 	/**
 	 * Method that returns the surname of the given ID
 	 * 
@@ -102,6 +104,7 @@ public class Network {
 				s = p.getLastName();
 			}
 		}
+
 		return s;
 	}
 
@@ -114,6 +117,7 @@ public class Network {
 	public ArrayList<People> printPeopleFromDates(String d1, String d2) {
 
 		String year;
+		// <String> vector = new Vector<String>();
 		ArrayList<People> peopleL = new ArrayList<People>();
 
 		for (People p : peopleList) {
@@ -130,6 +134,7 @@ public class Network {
 				peopleL.add(p);
 			}
 		}
+
 		return peopleL;
 	}
 
@@ -209,6 +214,7 @@ public class Network {
 				}
 			}
 			i++;
+
 		}
 	}
 
@@ -249,8 +255,10 @@ public class Network {
 					filmList.get(i).add(pTheOther);
 					i++; // Keep track of the main array index
 				}
+
 				match = true; // Reset the value
 			}
+
 		}
 	}
 
@@ -261,13 +269,17 @@ public class Network {
 	public int[][] ListToMatrix(int MAX) {
 
 		int[][] M1 = new int[MAX][MAX];
+
 		System.out.println(MAX);
 
 		for (int x = 0; x < M1.length; x++) {
+
 			for (int y = 0; y < M1.length; y++) {
 
 				M1[x][y] = 0;
+
 			}
+
 		}
 
 		for (int i = 0; i < peopleList.size(); i++) {
@@ -285,10 +297,15 @@ public class Network {
 					if (Total.equals(relationList.get(z))) {
 
 						M1[i][j] = 1;
+						M1[j][i]= 1;
+
 					}
+
 				}
 			}
+
 		}
+
 		return M1;
 	}
 
@@ -298,7 +315,7 @@ public class Network {
 	 * @param M1
 	 */
 	public void matrixToGraph(int[][] M1) {
-
+		
 		G1 = new Graph(peopleList);
 
 		for (int i = 0; i < M1.length; i++) {
@@ -308,96 +325,147 @@ public class Network {
 				if (M1[i][j] == 1) {
 
 					G1.addEdge(peopleList.get(i), peopleList.get(j));
+
 				}
+
 			}
+
 		}
+
 	}
 
+	
+	
+	
+	/**
+	 * this method finds the longest path between two nodes, if there
+	 * is one. It uses backtracking
+	 * 
+	 * @param G
+	 * @param r
+	 * @param d
+	 * @return
+	 */
 	public Stack<People> findLongPath(Graph G, People r, People d) {
 		Boolean pP = false;
-		int b = 0;
+		int b = 0;	
 		Stack<People> StackEmaitza = new Stack<People>();
 
-		for (@SuppressWarnings("unused") Stack<People> p1 : this.allPaths) {
+		for(@SuppressWarnings("unused") Stack<People> p1: this.allPaths) {
 			p1 = new Stack<People>();
 		}
-
+		
 		try {
-
+			
 			BreathFirstPaths B1 = new BreathFirstPaths(G, r);
-			if (B1.hasPathTo(G, d)) {
+			if(B1.hasPathTo(G, d)) {
 				System.out.println("");
 				System.out.println("There is a possible path");
-				pP = true;
+				pP=true;
 			}
-
+			
+		
 		} catch (InterruptedException e) {
-
+			
 			e.printStackTrace();
 		}
-
-		if (pP == true) {
-
+		
+		
+		if(pP==true) {
+			
 			aP.push(r);
-
-			for (People p1 : G.adjacentsToV(r)) {
-
-				if (!aP.contains(p1)) {
-
+			
+			for(People p1 : G.adjacentsToV(r)) {
+							
+				if(!aP.contains(p1)) {
+					
 					aP.push(p1);
 					iterativeLP(G, p1, d);
+
 				}
+			
 			}
+			
+			
 			aP.pop();
-
-			// =================================================================
-
-			// System.out.println("");
-			// System.out.println("those are all posible paths and them sizes:");
-			// System.out.println("");
-
-			for (Stack<People> s2 : allPaths) {
-				// System.out.println(s2.toString());
-				// System.out.println(s2.size());
-
-				int a = s2.size();
-
-				if (a > b) {
-
-					b = a;
-					StackEmaitza = s2;
-				}
+		
+		//=================================================================
+		
+		
+		for(Stack<People> s2: allPaths) {
+			
+			int a = s2.size();
+			
+			if( a > b) {		
+				
+				b=a;	
+				StackEmaitza = s2;	
 			}
-			return StackEmaitza;
 		}
+		
+		this.aP = new Stack<People>();
+		this.allPaths = new ArrayList<Stack<People>>();
+		
+		return StackEmaitza;
+		
+		}
+		
 		else {
 
 			System.out.println("No posible path found");
+			
+			this.aP = new Stack<People>();
+			this.allPaths = new ArrayList<Stack<People>>();
+			
 			return null;
+			
 		}
+		
+		
 	}
-
-	// ==========================================================================
-
+	
+	//==========================================================================
+		
+	
+	/**
+	 * The method that implements the backtracking
+	 * @param G
+	 * @param t
+	 * @param d
+	 */
 	public void iterativeLP(Graph G, People t, People d) {
-
-		if (t.getId().equals(d.getId())) {
-
+		
+		if(t.getId().equals(d.getId())) {
+			
 			Stack<People> newPath = new Stack<People>();
+			
 			newPath.addAll(aP);
+			
 			allPaths.add(newPath);
-
-		} else {
-
-			for (People p2 : G.adjacentsToV(t)) {
-
-				if (!aP.contains(p2)) {
-
+			
+		}else {
+			
+			for(People p2 : G.adjacentsToV(t)) {
+				
+				
+				if(!aP.contains(p2)) {
+					
 					aP.push(p2);
+					
 					iterativeLP(G, p2, d);
+					
 				}
+				
+				
+				
 			}
-		}
+			
+			}
 		aP.pop();
+				
 	}
+	
+	
+	
+	
 }

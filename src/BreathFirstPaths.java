@@ -23,18 +23,16 @@ public class BreathFirstPaths {
 		distTo[S] = 0;
 		marked[S] = true;
 		q.enqueue(s);
+		
 
 		while(!q.isEmpty()) {
-			
 			People v = q.dequeue();
 			int V = G.getList().indexOf(v);
 			
 			for(People w: G.adjacentsToV(v)) {
-				
 				int W = G.getList().indexOf(w);
 				
 				if(!marked[W]) {
-					
 					edgeTo[W]=V;
 					distTo[W]=distTo[V] + 1;
 					marked[W]= true;
@@ -55,7 +53,8 @@ public class BreathFirstPaths {
 		distTo = new int[G.V()];
 		edgeTo = new int[G.V()];
 	
-		bfs(G, s);	//make the BFS
+		//make the BFS
+		bfs(G, s);
 		}
 	
 //=================================================================================
@@ -68,39 +67,34 @@ public class BreathFirstPaths {
 	
 	//is there a path between s and v?
 	public boolean hasPathTo(Graph G, People v) {
-		
 		int V = G.getList().indexOf(v);
 		return marked[V];
 	}
 	
-	//length of the sortest path btween s and v
+	//length of the shortest path between s and v
 	public int distTo(Graph G, People v) {
-		
 		int V = G.getList().indexOf(v);
 		return distTo[V];
 	}
 
 	//Shortest path to a person
 	public Stack<People> pathTo(Graph G, People v){
-		
 		if(!hasPathTo(G, v)) return null;
-		
 		Stack<Integer> path = new Stack<Integer>();
-		int x, V = G.getList().indexOf(v);
+		int V = G.getList().indexOf(v);
+		int x;
 		
-		for (x = V ; distTo[x] != 0; x = edgeTo[x]) {
-			
+		for (x= V ; distTo[x] !=0; x=edgeTo[x]) {
 			path.push(x);
 		}
-		
 		path.push(x);
-		Stack<People> Ppath = new Stack<People>();
 		
+		Stack<People> Ppath = new Stack<People>();
 		for (Integer i : path) {
-			
 			People pb = G.getList().get(i);
 			Ppath.push(pb);
 		}
 		return Ppath;
 	}
+	
 }
